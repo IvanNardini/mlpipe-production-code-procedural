@@ -14,5 +14,5 @@ services:
         ports:
             - "8888:8888"
 
-networks: 
-    - development
+networks:
+    development: 
