@@ -10,18 +10,20 @@ RUN apt-get update && \
 	git && \
 	pip3 install --upgrade pip
 
-RUN mkdir scripts && \
-		cd scripts && \
-		mkdir converter_scripts && \
-		mkdir inference_demos
-COPY converter_scripts/ scripts/converter_scripts/
-COPY inference_demos/ scripts/inference_demos/
+# RUN mkdir scripts && \
+# 		cd scripts && \
+# 		mkdir converter_scripts && \
+# 		mkdir inference_demos
+# COPY converter_scripts/ scripts/converter_scripts/
+# COPY inference_demos/ scripts/inference_demos/
 COPY requirements.txt requirements.txt
 
 # Install Python Requirements
 RUN pip3 install -r requirements.txt
 
-WORKDIR /scripts
+# WORKDIR /scripts
+
+WORKDIR /
 
 EXPOSE 8888
 

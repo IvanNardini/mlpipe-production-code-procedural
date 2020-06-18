@@ -3,7 +3,7 @@ version: '3'
 services: 
     onnx-ecosystem:
         build:
-            context: ./docker/onnx-docker/onnx-ecosystem
+            context: ./docker/onnx/
             dockerfile: Dockerfile
         image: onnx-dev:1
         container_name: onnx-ecosystem
