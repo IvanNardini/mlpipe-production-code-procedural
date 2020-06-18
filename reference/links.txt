@@ -1,0 +1,3 @@
+https://medium.com/bycodegarage/encoding-categorical-data-in-machine-learning-def03ccfbf40
+https://datatofish.com/if-condition-in-pandas-dataframe/
+https://github.com/onnx/onnx-docker

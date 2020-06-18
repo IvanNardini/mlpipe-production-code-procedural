@@ -1,0 +1,16 @@
+{
+    "name": "LightGBM",
+    "description": " : fraud_reported = age + authorities_contacted + auto_make + auto_model + auto_year + bodily_injuries + capital_gains + capital_loss + collision_type + incident_city + incident_date + incident_hour_of_the_day + incident_location + incident_severity + incident_state + incident_type + injury_claim + insured_education_level + insured_hobbies + insured_occupation + insured_relationship + insured_sex + insured_zip + months_as_customer + number_of_vehicles_involved + police_report_available + policy_annual_premium + policy_bind_date + policy_csl + policy_deductable + policy_number + policy_state + property_claim + property_damage + total_claim_amount + umbrella_limit + vehicle_claim + witnesses",
+    "function": "classification",
+    "scoreCodeType": "python",
+    "trainTable": " ",
+    "trainCodeType": "Python",
+    "algorithm": "tree",
+    "targetVariable": "fraud_reported",
+    "targetEvent": "1",
+    "targetLevel": "BINARY",
+    "eventProbVar": "EVENT_PROBABILITY",
+    "modeler": "sasdemo",
+    "tool": "Python 3",
+    "toolVersion": "3.7.6"
+}

@@ -1,0 +1,18 @@
+version: '3'
+
+services: 
+    onnx-ecosystem:
+        build:
+            context: ./docker/onnx-docker/onnx-ecosystem
+            dockerfile: Dockerfile
+        image: onnx-dev:1
+        container_name: onnx-ecosystem
+        volumes:
+            - ./:/home/
+        networks: 
+            - development
+        ports:
+            - "8888:8888"
+
+networks: 
+    - development

@@ -1,0 +1,230 @@
+[
+    {
+        "name": "age",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "authorities_contacted",
+        "length": 9,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "auto_make",
+        "length": 10,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "auto_model",
+        "length": 14,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "auto_year",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "bodily_injuries",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "capital_gains",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "capital_loss",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "collision_type",
+        "length": 15,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "incident_city",
+        "length": 11,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "incident_date",
+        "length": 10,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "incident_hour_of_the_day",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "incident_location",
+        "length": 23,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "incident_severity",
+        "length": 14,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "incident_state",
+        "length": 2,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "incident_type",
+        "length": 24,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "injury_claim",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "insured_education_level",
+        "length": 11,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "insured_hobbies",
+        "length": 14,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "insured_occupation",
+        "length": 17,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "insured_relationship",
+        "length": 14,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "insured_sex",
+        "length": 6,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "insured_zip",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "months_as_customer",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "number_of_vehicles_involved",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "police_report_available",
+        "length": 3,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "policy_annual_premium",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "policy_bind_date",
+        "length": 10,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "policy_csl",
+        "length": 8,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "policy_deductable",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "policy_number",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "policy_state",
+        "length": 2,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "property_claim",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "property_damage",
+        "length": 3,
+        "type": "string",
+        "level": "nominal"
+    },
+    {
+        "name": "total_claim_amount",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "umbrella_limit",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "vehicle_claim",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "witnesses",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "name": "EVENT_PROBABILITY",
+        "length": 8,
+        "type": "decimal",
+        "level": "interval"
+    },
+    {
+        "name": "CLASSIFICATION_LABEL",
+        "length": 1,
+        "type": "string",
+        "level": "nominal"
+    }
+]
