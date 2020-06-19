@@ -1,4 +1,3 @@
-0
 umbrella_limit
 capital_gains
 capital_loss
@@ -7,7 +6,7 @@ incident_hour_of_the_day
 bodily_injuries
 witnesses
 total_claim_amount
-policy_deductable_group
+policy_deductable_groups
 policy_annual_premium_groups
 insured_hobbies_chess
 insured_hobbies_cross-fit

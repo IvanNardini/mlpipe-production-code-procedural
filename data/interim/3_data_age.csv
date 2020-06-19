@@ -1,4 +1,4 @@
-months_as_customer,policy_annual_premium,umbrella_limit,insured_sex,insured_hobbies,capital_gains,capital_loss,incident_type,collision_type,incident_severity,authorities_contacted,incident_hour_of_the_day,number_of_vehicles_involved,property_damage,bodily_injuries,witnesses,police_report_available,total_claim_amount,fraud_reported,policy_deductable_group,age_groups
+months_as_customer,policy_annual_premium,umbrella_limit,insured_sex,insured_hobbies,capital_gains,capital_loss,incident_type,collision_type,incident_severity,authorities_contacted,incident_hour_of_the_day,number_of_vehicles_involved,property_damage,bodily_injuries,witnesses,police_report_available,total_claim_amount,fraud_reported,policy_deductable_groups,age_groups
 328,1406.91,0,MALE,sleeping,53300,0,Single Vehicle Collision,Side Collision,Major Damage,Police,5,1,YES,1,2,YES,71610,1,501-1000,46-50
 228,1197.22,5000000,MALE,reading,0,0,Vehicle Theft,missing,Minor Damage,Police,8,1,missing,0,0,missing,5070,1,1501-2000,41-45
 134,1413.14,5000000,FEMALE,board-games,35100,0,Multi-vehicle Collision,Rear Collision,Minor Damage,Police,7,3,NO,2,3,NO,34650,0,1501-2000,26-30
