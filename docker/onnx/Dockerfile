@@ -7,7 +7,8 @@ RUN apt-get update && \
 	libcurl4-openssl-dev \
 	libssl-dev wget \
 	python3-pip \
-	git && \
+	git \
+	graphviz && \
 	pip3 install --upgrade pip
 
 # RUN mkdir scripts && \
