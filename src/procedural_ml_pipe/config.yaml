@@ -1,4 +1,5 @@
 ...
+
 paths:
   datapath: "./data/train.csv"
   outputpaths:
@@ -109,6 +110,20 @@ parameters:
     - police_report_available
     - age_groups
     - months_as_customer_groups
+  features_selected:
+    - bodily_injuries
+    - capital_gains
+    - capital_loss
+    - incident_hour_of_the_day
+    - incident_severity
+    - insured_hobbies_chess
+    - insured_hobbies_cross-fit
+    - insured_hobbies_others
+    - policy_annual_premium_groups
+    - policy_deductable_groups
+    - total_claim_amount
+    - umbrella_limit
+    - witnesses
   categories_map:
     collision_type:
       - Side Collision
@@ -192,4 +207,5 @@ parameters:
       0-500: 0
       501-1000: 1
       1501-2000: 2
+
 ---
