@@ -6,30 +6,7 @@ paths:
     scaler: "./output/scaler.pkl"
     model: "./output/model.onnx"
 
-parameters:
-  dropped_columns:
-    - policy_number
-    - policy_bind_date
-    - policy_state
-    - policy_csl
-    - insured_zip
-    - insured_occupation
-    - incident_date
-    - insured_education_level
-    - insured_relationship
-    - injury_claim
-    - property_claim
-    - vehicle_claim
-    - incident_state
-    - incident_city
-    - incident_location
-    - auto_model
-    - auto_make
-    - auto_year
-    - _c39
-  renamed_columns:
-    capital-gains: capital_gains
-    capital-loss: capital_loss
+metadata:
   target: fraud_reported
   predictors:
     - months_as_customer
@@ -110,6 +87,31 @@ parameters:
     - police_report_available
     - age_groups
     - months_as_customer_groups
+
+parameters:
+  dropped_columns:
+    - policy_number
+    - policy_bind_date
+    - policy_state
+    - policy_csl
+    - insured_zip
+    - insured_occupation
+    - incident_date
+    - insured_education_level
+    - insured_relationship
+    - injury_claim
+    - property_claim
+    - vehicle_claim
+    - incident_state
+    - incident_city
+    - incident_location
+    - auto_model
+    - auto_make
+    - auto_year
+    - _c39
+  renamed_columns:
+    capital-gains: capital_gains
+    capital-loss: capital_loss
   features_selected:
     - bodily_injuries
     - capital_gains
