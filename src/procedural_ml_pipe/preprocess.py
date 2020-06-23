@@ -20,7 +20,18 @@ def data_loader(datapath):
     :params: datapath
     :return: DataFrame
     '''
-    return pd.read_csv(df_path)
+    return pd.read_csv(datapath)
+
+def data_preparer(data, columns_to_drop):
+    '''
+    Drop and Rename columns
+    :params: data, columns_to_drop
+    :return: data
+    '''
+    data.drop[columns_to_drop, axis=1, inplace=True]
+    data.rename(columns={"capital-gains": "capital_gains", 
+                "capital-loss": "capital_loss"}, inplace=True)
+    return data
 
 def data_splitter(data, target):
     '''
@@ -37,18 +48,19 @@ def data_splitter(data, target):
 def missing_imputer(data, var, replace='missing'):
     '''
     Imputes '?' character with 'missing' label
-    :params:
-    :return:
+    :params: data, var, replace
+    :return: Series
     '''
-    return data[var] = data[var].replace('?', replace)
+    return data[var].replace('?', replace)
 
 def target_encoder(data, target):
-    #Create the list of target labels
+    '''
+    Encodes target variable
+    :params data, target
+    :return: Series
+    '''
     target_labels = set(data[target])
-    #Create encoding dictionary
     target_labels_dic = {label: index for index, label in enumerate(target_labels, 0)}
-    metadata['encoding_map'][target] = target_labels_dic
-    #Encode the data
-    data[target] = data[target].map(target_labels_dic).astype('category')
+    return data[target].map(target_labels_dic).astype('category')
 
-    print(data[target].cat.categories)
+def umbrella_encoder(data, var, umbrella)
