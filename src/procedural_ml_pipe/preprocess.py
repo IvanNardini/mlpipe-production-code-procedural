@@ -63,4 +63,5 @@ def target_encoder(data, target):
     target_labels_dic = {label: index for index, label in enumerate(target_labels, 0)}
     return data[target].map(target_labels_dic).astype('category')
 
-def umbrella_encoder(data, var, umbrella)
+def umbrella_encoder(data, var, umbrella):
+    pass
