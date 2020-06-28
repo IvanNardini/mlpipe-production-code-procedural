@@ -8,6 +8,7 @@ RUN apt-get update && \
 	libssl-dev wget \
 	python3-pip \
 	git \
+	ruamel.yaml \
 	graphviz && \
 	pip3 install --upgrade pip
 
