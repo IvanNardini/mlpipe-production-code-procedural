@@ -121,7 +121,7 @@ def data_loader(datapath):
 #     predictions_onnx = sess.run([label_name], {input_name: score})
 #     return predictions_onnx[0]
 
-if __name__ == __main__:
+if __name__ == '__main__':
 
     # Data Preparation
     import pandas as pd
@@ -141,4 +141,4 @@ if __name__ == __main__:
     import joblib
 
     data = data_loader('../data/raw/insurance_claims.csv')
-    print(data.head(10)
+    print(data.head(10))
