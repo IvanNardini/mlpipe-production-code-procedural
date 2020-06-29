@@ -140,5 +140,5 @@ if __name__ == '__main__':
     #Utils
     import joblib
 
-    data = data_loader('../data/raw/insurance_claims.csv')
+    data = data_loader('insurance_claims.csv')
     print(data.head(10))
