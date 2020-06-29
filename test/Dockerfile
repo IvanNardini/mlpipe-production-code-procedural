@@ -15,11 +15,8 @@ RUN apt-get update && \
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt requirements.txt
+COPY . .
 
 RUN pip3 install -r requirements.txt
-
-COPY insurance_claims.csv insurance_claims.csv
-COPY preprocess.py preprocess.py
 
 CMD [ "python3", "./preprocess.py" ]

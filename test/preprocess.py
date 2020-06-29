@@ -8,16 +8,16 @@ def data_loader(datapath):
     '''
     return pd.read_csv(datapath)
 
-# def data_preparer(data, columns_to_drop):
-#     '''
-#     Drop and Rename columns
-#     :params: data, columns_to_drop
-#     :return: DataFrame
-#     '''
-#     data.drop[columns_to_drop, axis=1, inplace=True]
-#     data.rename(columns={"capital-gains": "capital_gains", 
-#                 "capital-loss": "capital_loss"}, inplace=True)
-#     return data
+def data_preparer(data, columns_to_drop):
+    '''
+    Drop and Rename columns
+    :params: data, columns_to_drop
+    :return: DataFrame
+    '''
+    data.drop(columns_to_drop, axis=1, inplace=True)
+    data.rename(columns={"capital-gains": "capital_gains", 
+                "capital-loss": "capital_loss"}, inplace=True)
+    return data
 
 # def missing_imputer(data, var, replace='missing'):
 #     '''
@@ -139,6 +139,11 @@ if __name__ == '__main__':
 
     #Utils
     import joblib
+    import ruamel.yaml as yaml
+    
+    stream = open('config.yaml', 'r')
+    config = yaml.load(stream)
+    print(config)
 
     data = data_loader('insurance_claims.csv')
-    print(data.head(10))
+    # data = data_preparer(data, '')
