@@ -140,4 +140,5 @@ def data_loader(datapath):
 
 if __name__ == __main__:
     data = data_loader('../data/raw/insurance_claims.csv')
+    print(data.head(10)
 
