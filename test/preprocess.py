@@ -140,10 +140,13 @@ if __name__ == '__main__':
     #Utils
     import joblib
     import ruamel.yaml as yaml
+    import warnings
+    warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
     
     stream = open('config.yaml', 'r')
     config = yaml.load(stream)
-    print(config)
 
     data = data_loader('insurance_claims.csv')
-    # data = data_preparer(data, '')
+    data = data_preparer(data, config['dropped_columns'])
+
+    print(data.head(10))
