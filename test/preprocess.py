@@ -27,13 +27,13 @@ def missing_imputer(data, var, replace='missing'):
     '''
     return data[var].replace('?', replace)
 
-# def encoder(data, var, mapping):
-#     '''
-#     Encode all variables for training
-#     :params: data, var, mapping
-#     :return: DataFrame
-#     '''
-#     return data[var].map(mapping)
+def encoder(data, var, mapping):
+    '''
+    Encode all variables for training
+    :params: data, var, mapping
+    :return: DataFrame
+    '''
+    return data[var].map(mapping)
 
 # def dumminizer(data, columns_to_dummies):
 #     '''
@@ -150,6 +150,7 @@ if __name__ == '__main__':
     data = data_preparer(data, config['dropped_columns'])
 
     for var in config['missing_predictors']:
-        data = missing_imputer(data, var, replace='missing')
+        data[var] = missing_imputer(data, var, replace='missing')
 
-    print(data[config['missing_predictors']].unique())
+
+    
