@@ -14,6 +14,7 @@ COPY requirements.txt requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ../src/procedural_ml_pipe/preprocess.py preprocess.py
+COPY ../../data/raw/*.csv insurance_claims.csv
+COPY ../../src/procedural_ml_pipe/preprocess.py preprocess.py
 
 CMD [ "python", "./preprocess.py" ]
