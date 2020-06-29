@@ -1,20 +1,3 @@
-# Data Preparation
-import pandas as pd
-import numpy as np
-
-# Model Training
-from sklearn.preprocessing import MinMaxScaler
-from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-
-# Model Deployment
-from skl2onnx import convert_sklearn
-from skl2onnx.common.data_types import FloatTensorType
-
-#Utils
-import joblib
-
 # Preprocessing functions
 
 def data_loader(datapath):
@@ -139,6 +122,23 @@ def data_loader(datapath):
 #     return predictions_onnx[0]
 
 if __name__ == __main__:
+
+    # Data Preparation
+    import pandas as pd
+    import numpy as np
+
+    # Model Training
+    from sklearn.preprocessing import MinMaxScaler
+    from imblearn.over_sampling import SMOTE
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+
+    # Model Deployment
+    from skl2onnx import convert_sklearn
+    from skl2onnx.common.data_types import FloatTensorType
+
+    #Utils
+    import joblib
+
     data = data_loader('../data/raw/insurance_claims.csv')
     print(data.head(10)
-
