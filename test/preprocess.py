@@ -149,4 +149,4 @@ if __name__ == '__main__':
     data = data_loader('insurance_claims.csv')
     data = data_preparer(data, config['dropped_columns'])
 
-    print(data.head(10))
+    print(data.columns)
