@@ -19,13 +19,13 @@ def data_preparer(data, columns_to_drop):
                 "capital-loss": "capital_loss"}, inplace=True)
     return data
 
-# def missing_imputer(data, var, replace='missing'):
-#     '''
-#     Imputes '?' character with 'missing' label
-#     :params: data, var, replace
-#     :return: Series
-#     '''
-#     return data[var].replace('?', replace)
+def missing_imputer(data, var, replace='missing'):
+    '''
+    Imputes '?' character with 'missing' label
+    :params: data, var, replace
+    :return: Series
+    '''
+    return data[var].replace('?', replace)
 
 # def encoder(data, var, mapping):
 #     '''
@@ -149,4 +149,7 @@ if __name__ == '__main__':
     data = data_loader('insurance_claims.csv')
     data = data_preparer(data, config['dropped_columns'])
 
-    print(data.columns)
+    for var in config['missing_predictors']:
+        data = missing_imputer(data, var, replace='missing')
+
+    print(data[config['missing_predictors']].unique())
