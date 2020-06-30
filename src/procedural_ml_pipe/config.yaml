@@ -201,10 +201,18 @@ categories_map:
     -   Minor Damage
     -   Total Loss
     -   Trivial Damage
+encode_variables:
+-   fraud_reported
+-   age_groups
+-   months_as_customer_groups
+-   insured_hobbies
+-   incident_severity
+-   policy_annual_premium_groups
+-   policy_deductable_groups
 encoding_map:
     fraud_reported:
-        Y: 0
-        N: 1
+        N: 0
+        Y: 1
     policy_deductable_groups:
         0-500: 0
         501-1000: 1
