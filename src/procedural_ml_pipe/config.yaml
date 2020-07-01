@@ -206,51 +206,41 @@ binning_meta:
         -   451-500
 encoding_meta:
     fraud_reported:
-        var_name: fraud_reported
-        map:
-            N: 0
-            Y: 1
+        Y: 0
+        N: 1
     insured_hobbies:
-        var_name: insured_hobbies
-        map:
-            sleeping: others
-            reading: others
-            board-games: others
-            bungie-jumping: others
-            base-jumping: others
-            golf: others
-            camping: others
-            dancing: others
-            skydiving: others
-            movies: others
-            hiking: others
-            yachting: others
-            paintball: others
-            chess: chess
-            kayaking: others
-            polo: others
-            basketball: others
-            video-games: others
-            cross-fit: cross-fit
-            exercise: others
+        sleeping: others
+        reading: others
+        board-games: others
+        bungie-jumping: others
+        base-jumping: others
+        golf: others
+        camping: others
+        dancing: others
+        skydiving: others
+        movies: others
+        hiking: others
+        yachting: others
+        paintball: others
+        chess: chess
+        kayaking: others
+        polo: others
+        basketball: others
+        video-games: others
+        cross-fit: cross-fit
+        exercise: others
     incident_severity:
-        var_name: incident_severity
-        map:
-            Trivial Damage: 0
-            Minor Damage: 1
-            Major Damage: 2
-            Total Loss: 3
+        Trivial Damage: 0
+        Minor Damage: 1
+        Major Damage: 2
+        Total Loss: 3
     policy_annual_premium_groups:
-        var_name: policy_annual_premium_groups
-        map:
-            very low: 0
-            low: 1
-            medium: 2
-            high: 3
-            very high: 4
+        very low: 0
+        low: 1
+        medium: 2
+        high: 3
+        very high: 4
     policy_deductable_groups:
-        var_name: policy_deductable_groups
-        map:
-            0-500: 0
-            501-1000: 1
-            1501-2000: 2
+        0-500: 0
+        501-1000: 1
+        1501-2000: 2
