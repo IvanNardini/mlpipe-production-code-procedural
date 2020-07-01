@@ -27,6 +27,11 @@ def missing_imputer(data, var, replace='missing'):
     '''
     return data[var].replace('?', replace)
 
+def binner(data, var, new_var_name, bins, bins_labels):
+    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bin_labels)
+    data.drop(var, axis=1, inplace=True)
+    return data[new_var_name]
+
 def encoder(data, var, mapping):
     '''
     Encode all variables for training
@@ -152,7 +157,11 @@ if __name__ == '__main__':
     for var in config['missing_predictors']:
         data[var] = missing_imputer(data, var, replace='missing')
 
-    for var, encode_var in config['encode_variables'].items():
-        data[encode_var] = encoder(data, var, config['encoding_map'][encode_var])
+#     for var, meta in config['binned_variables'].items():
+#         binning_meta = meta
+#         data[binning_meta['var_name'] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
 
-    print(data.head(10))
+# print(data.head(10))
+
+    
+    
