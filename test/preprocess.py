@@ -152,5 +152,7 @@ if __name__ == '__main__':
     for var in config['missing_predictors']:
         data[var] = missing_imputer(data, var, replace='missing')
 
+    for var, encode_var in config['encode_variables'].items():
+        data[encode_var] = encoder(data, var, config['encoding_map'][encode_var])
 
-    
+    print(data.head(10))
