@@ -101,12 +101,13 @@ nominal_predictors:
 -   police_report_available
 -   age_groups
 -   months_as_customer_groups
-encode_variables:
--   fraud_reported
+binned_variables:
 -   policy_deductable
 -   age
 -   policy_annual_premium
 -   months_as_customer
+encode_variables:
+-   fraud_reported
 -   insured_hobbies
 -   incident_severity
 -   policy_annual_premium_groups
