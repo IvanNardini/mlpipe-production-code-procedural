@@ -1,20 +1,3 @@
-# Data Preparation
-import pandas as pd
-import numpy as np
-
-# Model Training
-from sklearn.preprocessing import MinMaxScaler
-from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-
-# Model Deployment
-from skl2onnx import convert_sklearn
-from skl2onnx.common.data_types import FloatTensorType
-
-#Utils
-import joblib
-
 # Preprocessing functions
 
 def data_loader(datapath):
@@ -25,41 +8,46 @@ def data_loader(datapath):
     '''
     return pd.read_csv(datapath)
 
-# def data_preparer(data, columns_to_drop):
-#     '''
-#     Drop and Rename columns
-#     :params: data, columns_to_drop
-#     :return: DataFrame
-#     '''
-#     data.drop[columns_to_drop, axis=1, inplace=True]
-#     data.rename(columns={"capital-gains": "capital_gains", 
-#                 "capital-loss": "capital_loss"}, inplace=True)
-#     return data
+def data_preparer(data, columns_to_drop):
+    '''
+    Drop and Rename columns
+    :params: data, columns_to_drop
+    :return: DataFrame
+    '''
+    data.drop(columns_to_drop, axis=1, inplace=True)
+    data.rename(columns={"capital-gains": "capital_gains", 
+                "capital-loss": "capital_loss"}, inplace=True)
+    return data
 
-# def missing_imputer(data, var, replace='missing'):
-#     '''
-#     Imputes '?' character with 'missing' label
-#     :params: data, var, replace
-#     :return: Series
-#     '''
-#     return data[var].replace('?', replace)
+def missing_imputer(data, var, replace='missing'):
+    '''
+    Imputes '?' character with 'missing' label
+    :params: data, var, replace
+    :return: Series
+    '''
+    return data[var].replace('?', replace)
 
-# def encoder(data, var, mapping):
-#     '''
-#     Encode all variables for training
-#     :params: data, var, mapping
-#     :return: DataFrame
-#     '''
-#     return data[var].map(mapping)
+def binner(data, var, new_var_name, bins, bins_labels):
+    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels)
+    data.drop(var, axis=1, inplace=True)
+    return data[new_var_name]
 
-# def dumminizer(data, columns_to_dummies):
-#     '''
-#     Generate dummies for nominal variables
-#     :params: data, columns_to_dummies
-#     :return: DataFrame
-#     '''
-#     data = pd.get_dummies(data, columns=columns_to_dummies)
-#     return data
+def encoder(data, var, mapping):
+    '''
+    Encode all variables for training
+    :params: data, var, mapping
+    :return: DataFrame
+    '''
+    return data[var].map(mapping)
+
+def dumminizer(data, columns_to_dummies):
+    '''
+    Generate dummies for nominal variables
+    :params: data, columns_to_dummies
+    :return: DataFrame
+    '''
+    data = pd.get_dummies(data, columns=columns_to_dummies)
+    return data
 
 # def scaler_trainer(data, output_path):
 #     '''
@@ -138,6 +126,39 @@ def data_loader(datapath):
 #     predictions_onnx = sess.run([label_name], {input_name: score})
 #     return predictions_onnx[0]
 
-if __name__ == __main__:
-    data = data_loader('../data/raw/insurance_claims.csv')
+if __name__ == '__main__':
 
+    # Data Preparation
+    import pandas as pd
+    import numpy as np
+
+    # Model Training
+    from sklearn.preprocessing import MinMaxScaler
+    from imblearn.over_sampling import SMOTE
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+
+    # Model Deployment
+    from skl2onnx import convert_sklearn
+    from skl2onnx.common.data_types import FloatTensorType
+
+    #Utils
+    import joblib
+    import ruamel.yaml as yaml
+    import warnings
+    warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
+    
+    stream = open('config.yaml', 'r')
+    config = yaml.load(stream)
+
+    data = data_loader('insurance_claims.csv')
+    data = data_preparer(data, config['dropped_columns'])
+
+    for var in config['missing_predictors']:
+        data[var] = missing_imputer(data, var, replace='missing')
+
+    for var, meta in config['binning_meta'].items():
+        binning_meta = meta
+        data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+    
+    # for var in config['missing_predictors']

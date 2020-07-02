@@ -28,7 +28,7 @@ def missing_imputer(data, var, replace='missing'):
     return data[var].replace('?', replace)
 
 def binner(data, var, new_var_name, bins, bins_labels):
-    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bin_labels)
+    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels)
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
 
@@ -40,14 +40,14 @@ def encoder(data, var, mapping):
     '''
     return data[var].map(mapping)
 
-# def dumminizer(data, columns_to_dummies):
-#     '''
-#     Generate dummies for nominal variables
-#     :params: data, columns_to_dummies
-#     :return: DataFrame
-#     '''
-#     data = pd.get_dummies(data, columns=columns_to_dummies)
-#     return data
+def dumminizer(data, columns_to_dummies):
+    '''
+    Generate dummies for nominal variables
+    :params: data, columns_to_dummies
+    :return: DataFrame
+    '''
+    data = pd.get_dummies(data, columns=columns_to_dummies)
+    return data
 
 # def scaler_trainer(data, output_path):
 #     '''
@@ -160,5 +160,5 @@ if __name__ == '__main__':
     for var, meta in config['binning_meta'].items():
         binning_meta = meta
         data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
-
-print(data.head(10))
+    
+    # for var in config['missing_predictors']
