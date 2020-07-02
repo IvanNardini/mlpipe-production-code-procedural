@@ -13,12 +13,14 @@ RUN apt-get update && \
 	graphviz && \
 	pip3 install --upgrade pip
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 
 COPY requirements.txt .
+COPY src/ .
+COPY data/raw/insurance_claims.csv .
 
 RUN pip3 install -r requirements.txt
 
-COPY . .
+# COPY . .
 
 CMD [ "python3", "./preprocess.py" ]
