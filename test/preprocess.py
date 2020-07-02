@@ -157,11 +157,8 @@ if __name__ == '__main__':
     for var in config['missing_predictors']:
         data[var] = missing_imputer(data, var, replace='missing')
 
-#     for var, meta in config['binned_variables'].items():
-#         binning_meta = meta
-#         data[binning_meta['var_name'] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+    for var, meta in config['binning_meta'].items():
+        binning_meta = meta
+        data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
 
-# print(data.head(10))
-
-    
-    
+print(data.head(10))

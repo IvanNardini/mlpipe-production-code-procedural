@@ -1,3 +1,6 @@
 https://medium.com/bycodegarage/encoding-categorical-data-in-machine-learning-def03ccfbf40
 https://datatofish.com/if-condition-in-pandas-dataframe/
 https://github.com/onnx/onnx-docker
+
+https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
+https://appfleet.com/blog/github-actions-how-to-improve-your-ci-cd-workflow/
