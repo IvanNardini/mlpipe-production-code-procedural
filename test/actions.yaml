@@ -6,6 +6,7 @@ inputs:
   image-name:
     description: 'Image name with tag'
     required: true
+    default: 'ml-test:v1'
 outputs:
   status:
     description: 'Docker image built!'
