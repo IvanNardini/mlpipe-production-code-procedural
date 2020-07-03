@@ -8,7 +8,7 @@ WORKDIR /build
 COPY . . 
 
 RUN apk add --update --no-cache docker
-RUN ["chmod", "+x", "/build.sh"]
+RUN ["chmod", "+x", "./build.sh"]
 
 # build image when container starts
-ENTRYPOINT ["/build.sh", "${IMAGE_NAME}"]
+ENTRYPOINT ["./build.sh", "${IMAGE_NAME}"]
