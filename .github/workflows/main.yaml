@@ -22,7 +22,7 @@ jobs:
       - name: Build action step
         id: Build
         # uses: .github/actions/
-        uses: test/
+        uses: ./test/
         with: 
           image-name : 'ml-test:v1'
       #3nd: run the container to test the image
