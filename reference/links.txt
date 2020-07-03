@@ -2,5 +2,10 @@ https://medium.com/bycodegarage/encoding-categorical-data-in-machine-learning-de
 https://datatofish.com/if-condition-in-pandas-dataframe/
 https://github.com/onnx/onnx-docker
 
+https://gabrieltanner.org/blog/an-introduction-to-github-actions
+https://www.liatrio.com/blog/github-actions
 https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
 https://appfleet.com/blog/github-actions-how-to-improve-your-ci-cd-workflow/
+
+https://fireship.io/lessons/five-useful-github-actions-examples/
+https://github.com/JavierZolotarchuk/parameterizable-docker-action-example

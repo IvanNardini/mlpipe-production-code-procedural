@@ -1,0 +1,247 @@
+dropped_columns:
+-   policy_number
+-   policy_bind_date
+-   policy_state
+-   policy_csl
+-   insured_zip
+-   insured_occupation
+-   incident_date
+-   insured_education_level
+-   insured_relationship
+-   injury_claim
+-   property_claim
+-   vehicle_claim
+-   incident_state
+-   incident_city
+-   incident_location
+-   auto_model
+-   auto_make
+-   auto_year
+-   _c39
+renamed_columns:
+    capital-gains: capital_gains
+    capital-loss: capital_loss
+target: fraud_reported
+predictors:
+-   months_as_customer
+-   age
+-   policy_deductable
+-   policy_annual_premium
+-   umbrella_limit
+-   insured_sex
+-   insured_hobbies
+-   capital_gains
+-   capital_loss
+-   incident_type
+-   collision_type
+-   incident_severity
+-   authorities_contacted
+-   incident_hour_of_the_day
+-   number_of_vehicles_involved
+-   property_damage
+-   bodily_injuries
+-   witnesses
+-   police_report_available
+-   total_claim_amount
+missing_predictors:
+-   collision_type
+-   property_damage
+-   police_report_available
+numerical_predictors:
+-   months_as_customer
+-   age
+-   policy_deductable
+-   policy_annual_premium
+-   umbrella_limit
+-   capital_gains
+-   capital_loss
+-   incident_hour_of_the_day
+-   number_of_vehicles_involved
+-   bodily_injuries
+-   witnesses
+-   total_claim_amount
+discrete_predictors:
+-   policy_deductable
+-   umbrella_limit
+-   incident_hour_of_the_day
+-   number_of_vehicles_involved
+-   bodily_injuries
+-   witnesses
+continuous_predictors:
+-   months_as_customer
+-   age
+-   policy_annual_premium
+-   capital_gains
+-   capital_loss
+-   total_claim_amount
+categorical_predictors:
+-   insured_sex
+-   insured_hobbies
+-   incident_type
+-   collision_type
+-   incident_severity
+-   authorities_contacted
+-   property_damage
+-   police_report_available
+-   policy_deductable_groups
+-   age_groups
+-   policy_annual_premium_groups
+-   months_as_customer_groups
+ordinal_predictors:
+-   incident_severity
+-   policy_annual_premium_groups
+-   policy_deductable_groups
+nominal_predictors:
+-   insured_sex
+-   insured_hobbies
+-   incident_type
+-   collision_type
+-   authorities_contacted
+-   property_damage
+-   police_report_available
+-   age_groups
+-   months_as_customer_groups
+binned_variables:
+-   policy_deductable
+-   age
+-   policy_annual_premium
+-   months_as_customer
+encode_variables:
+-   fraud_reported
+-   insured_hobbies
+-   incident_severity
+-   policy_annual_premium_groups
+-   policy_deductable_groups
+features_selected:
+-   bodily_injuries
+-   capital_gains
+-   capital_loss
+-   incident_hour_of_the_day
+-   incident_severity
+-   insured_hobbies_chess
+-   insured_hobbies_cross-fit
+-   insured_hobbies_others
+-   policy_annual_premium_groups
+-   policy_deductable_groups
+-   total_claim_amount
+-   umbrella_limit
+-   witnesses
+binning_meta:
+    policy_deductable:
+        var_name: policy_deductable_groups
+        bins:
+        -   0
+        -   500
+        -   1000
+        -   1500
+        -   2000
+        bins_labels:
+        -   0-500
+        -   501-1000
+        -   1001-1500
+        -   1501-2000
+    age:
+        var_name: age_groups
+        bins:
+        -   15
+        -   20
+        -   25
+        -   30
+        -   35
+        -   40
+        -   45
+        -   50
+        -   55
+        -   60
+        -   65
+        bins_labels:
+        -   15-20
+        -   21-25
+        -   26-30
+        -   31-35
+        -   36-40
+        -   41-45
+        -   46-50
+        -   51-55
+        -   56-60
+        -   61-65
+    policy_annual_premium:
+        var_name: policy_annual_premium_groups
+        bins:
+        -   0
+        -   500
+        -   1000
+        -   1500
+        -   2000
+        -   2500
+        bins_labels:
+        -   very low
+        -   low
+        -   medium
+        -   high
+        -   very high
+    months_as_customer:
+        var_name: months_as_customer_groups
+        bins:
+        -   0
+        -   50
+        -   100
+        -   150
+        -   200
+        -   250
+        -   300
+        -   350
+        -   400
+        -   450
+        -   500
+        bins_labels:
+        -   0-50
+        -   51-100
+        -   101-150
+        -   151-200
+        -   201-250
+        -   251-300
+        -   301-350
+        -   351-400
+        -   401-450
+        -   451-500
+encoding_meta:
+    fraud_reported:
+        Y: 0
+        N: 1
+    insured_hobbies:
+        sleeping: others
+        reading: others
+        board-games: others
+        bungie-jumping: others
+        base-jumping: others
+        golf: others
+        camping: others
+        dancing: others
+        skydiving: others
+        movies: others
+        hiking: others
+        yachting: others
+        paintball: others
+        chess: chess
+        kayaking: others
+        polo: others
+        basketball: others
+        video-games: others
+        cross-fit: cross-fit
+        exercise: others
+    incident_severity:
+        Trivial Damage: 0
+        Minor Damage: 1
+        Major Damage: 2
+        Total Loss: 3
+    policy_annual_premium_groups:
+        very low: 0
+        low: 1
+        medium: 2
+        high: 3
+        very high: 4
+    policy_deductable_groups:
+        0-500: 0
+        501-1000: 1
+        1501-2000: 2

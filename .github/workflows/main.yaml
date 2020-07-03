@@ -1,0 +1,29 @@
+#The name of workflow
+name: Continuous Integration for Machine Learning
+
+#The name of the GitHub event that triggers the workflow
+on:
+  #Runs your workflow anytime the pull_request event occurs
+  push:
+    #to the master branch
+    branches: [master]
+
+# A workflow run is made up of one or more jobs
+jobs:
+  test_pull_request:
+    #The type of machine to run the job on
+    runs-on: ubuntu-18.04
+    #A job contains a sequence of tasks called steps
+    steps:
+      #1st: copy the folder on ubuntu server
+      - name: Checkout
+        uses: actions/checkout@v2 
+      #2nd: use the action to build the image for testing
+      - name: Build action step
+        id: Build
+        uses: .github/actions/
+        with: 
+          image-name : 'ml-test:v1'
+      #3nd: run the container to test the image
+      - name: Run Test step
+        run: docker container run ml-test:v1

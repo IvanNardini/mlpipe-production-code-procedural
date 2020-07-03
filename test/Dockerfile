@@ -15,9 +15,7 @@ RUN apt-get update && \
 
 WORKDIR /usr/src
 
-COPY requirements.txt .
-COPY src/ .
-COPY data/raw/insurance_claims.csv .
+COPY . . 
 
 RUN pip3 install -r requirements.txt
 
