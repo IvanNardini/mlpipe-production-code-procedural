@@ -10,7 +10,7 @@ on:
 
 # A workflow run is made up of one or more jobs
 jobs:
-  test_pull_request:
+  Model-package-test:
     #The type of machine to run the job on
     runs-on: ubuntu-18.04
     #A job contains a sequence of tasks called steps
