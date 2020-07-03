@@ -1,4 +1,6 @@
-IMAGE_NAME=$1
+#!/bin/sh
+
+MAGE_NAME=$1
 
 cd ./procedural_ml_pipe
 echo "Building docker image..."
