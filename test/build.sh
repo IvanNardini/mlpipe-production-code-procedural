@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
-# echo "$1"
-
+echo "$1"
+echo "$2"
 echo "SUCAAAAAAAAAA"
 
 # cd /procedural_ml_pipe

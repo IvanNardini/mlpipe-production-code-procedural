@@ -2,16 +2,13 @@
 name: 'Build'
 description: 'Build docker image for testing'
 author: 'Ivan Nardini <ivan.nardini@sas.com>'
-inputs:
-  image-name:
-    description: 'Image name with tag'
-    required: true
-    default: 'ml-test:v1'
-outputs:
-  status:
-    description: 'Docker image built!'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.image-name }}
+inputs:
+  image-name:
+    description: 'Image name'
+    required: true
+  tag:
+    description: 'Tag'
+    required: true

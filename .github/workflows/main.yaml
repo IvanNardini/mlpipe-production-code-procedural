@@ -6,14 +6,15 @@ on:
   #Runs your workflow anytime the pull_request event occurs
   push:
     #to the master branch
-    branches: [master]
+    branches:
+      - master
 
 # A workflow run is made up of one or more jobs
 jobs:
   Model-package-test:
     #The type of machine to run the job on
-    runs-on: ubuntu-18.04
     name: Model package test
+    runs-on: ubuntu-18.04
     #A job contains a sequence of tasks called steps
     steps:
       #1st: copy the folder on ubuntu server
@@ -25,7 +26,8 @@ jobs:
         # uses: .github/actions/
         uses: ./test/
         with: 
-          image-name : 'ml-test:v1'
+          image-name: 'ml-test'
+          tag: 'v1'
       #3nd: run the container to test the image
       - name: Run Test step
         run: docker container run ml-test:v1
