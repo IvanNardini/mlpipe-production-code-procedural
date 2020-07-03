@@ -2,9 +2,6 @@
 name: 'Build'
 description: 'Build docker image for testing'
 author: 'Ivan Nardini <ivan.nardini@sas.com>'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
 inputs:
   image-name:
     description: 'Image name'
@@ -12,3 +9,9 @@ inputs:
   tag:
     description: 'Tag'
     required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.image-name }}
+    - ${{ inputs.tag }}

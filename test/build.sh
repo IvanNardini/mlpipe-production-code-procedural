@@ -2,9 +2,13 @@
 
 echo "$1"
 echo "$2"
-echo "SUCAAAAAAAAAA"
 
 # cd /procedural_ml_pipe
 # echo "Building docker image..."
 
 # docker build -t "$IMAGE_NAME" --rm .
+
+# if <condition> ; then
+#   echo "Game over!"
+#   exit 1
+# fi
