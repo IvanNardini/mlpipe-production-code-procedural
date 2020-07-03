@@ -1,5 +1,3 @@
-#!/bin/sh
-
 IMAGE_NAME=$1
 
 cd /test
