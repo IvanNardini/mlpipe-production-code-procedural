@@ -1,24 +1,12 @@
-FROM ubuntu:18.04
+# Container to run the command for image building
+ARG IMAGE_NAME
+FROM alpine:latest
 
-MAINTAINER  Ivan Nardini "ivan.nardini@sas.com"
+# Copy file for building
+COPY . .
 
-RUN apt-get update && \
-	apt-get install -y sudo \
-	build-essential curl \
-	libcurl4-openssl-dev \
-	libssl-dev wget \
-	python3-pip \
-	git \
-	ruamel.yaml \
-	graphviz && \
-	pip3 install --upgrade pip
+RUN apk add --update --no-cache docker
+RUN ["chmod", "+x", "./build.sh"]
 
-WORKDIR /usr/src
-
-COPY . . 
-
-RUN pip3 install -r requirements.txt
-
-# COPY . .
-
-CMD [ "python3", "./preprocess.py" ]
+# build image when container starts
+ENTRYPOINT ["./build.sh", "${IMAGE_NAME}"]
