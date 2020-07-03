@@ -13,7 +13,7 @@ jobs:
   Model-package-test:
     #The type of machine to run the job on
     runs-on: ubuntu-18.04
-    name: A job to test the model package
+    name: Model package test
     #A job contains a sequence of tasks called steps
     steps:
       #1st: copy the folder on ubuntu server

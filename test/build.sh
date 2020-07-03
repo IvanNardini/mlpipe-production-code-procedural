@@ -1,7 +1,6 @@
 #!/bin/sh -l
 
-IMAGE_NAME=$1
-echo "$IMAGE_NAME"
+echo "$1"
 
 # cd /procedural_ml_pipe
 # echo "Building docker image..."
