@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -l
 
 IMAGE_NAME=$1
 echo "$IMAGE_NAME"
