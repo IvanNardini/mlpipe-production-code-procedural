@@ -108,7 +108,8 @@ def model_trainer(data, target, output_path):
     initial_type = [('features_input', FloatTensorType([1, data.shape[1]]))]
     onnx = convert_sklearn(rfor, name='rf_champion', initial_types=initial_type)
     with open(output_path + "rf_champion.onnx", "wb") as f:
-    f.write(onnx.SerializeToString())
+        f.write(onnx.SerializeToString())
+        f.close()
     return None
 
 # def model_scorer(data, model):
