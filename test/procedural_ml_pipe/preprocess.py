@@ -166,19 +166,19 @@ if __name__ == '__main__':
         data[var] = encoder(data, var, meta)
         print(data[var].unique())
 
-    # data = dumminizer(data, config['nominal_predictors'])
+    data = dumminizer(data, config['nominal_predictors'])
 
-    # data = selector(data, config['features_selected'])
+    data = selector(data, config['features_selected'])
 
-    # X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
+    X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
     
-    # scaler = scaler_trainer(X_train, '.')
+    scaler = scaler_trainer(X_train, '.')
 
-    # X_train = scaler.transform(X_train)
+    X_train = scaler.transform(X_train)
 
-    # model_trainer(X_train, y_train, '.')
+    model_trainer(X_train, y_train, '.')
 
-    # print('Finished training')
+    print('Finished training')
 
 
 
