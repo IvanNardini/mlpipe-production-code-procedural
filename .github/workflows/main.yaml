@@ -25,7 +25,8 @@ jobs:
         uses: docker/build-push-action@v1
         with:
           path: ./test/procedural_ml_pipe/
-          tags: ml-test:v1
+          repository: ml-test
+          tags: v1
           push: false
         # id: Build
         # # uses: .github/actions/
