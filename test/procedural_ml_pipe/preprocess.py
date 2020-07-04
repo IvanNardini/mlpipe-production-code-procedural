@@ -161,20 +161,24 @@ if __name__ == '__main__':
     for var, meta in config['binning_meta'].items():
         binning_meta = meta
         data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+
+    for var, meta in config['encoding_meta'].items():
+        data[var] = encoder(data, var, meta)
+        print(data[var].unique())
+
+    # data = dumminizer(data, config['nominal_predictors'])
+
+    # data = selector(data, config['features_selected'])
+
+    # X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
     
-    data = dumminizer(data, config['nominal_predictors'])
+    # scaler = scaler_trainer(X_train, '.')
 
-    data = selector(data, config['features_selected'])
+    # X_train = scaler.transform(X_train)
 
-    X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
-    
-    scaler = scaler_trainer(X_train, '.')
+    # model_trainer(X_train, y_train, '.')
 
-    X_train = scaler.transform(X_train)
-
-    model_trainer(X_train, y_train, '.')
-
-    print('Finished training')
+    # print('Finished training')
 
 
 
