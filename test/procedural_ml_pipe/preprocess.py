@@ -77,7 +77,7 @@ def scaler_trainer(data, output_path):
     '''
     scaler = MinMaxScaler()
     scaler.fit(data)
-    joblib.dump(scaler, output_path)
+    joblib.dump(scaler, output_path + 'scaler.pkl')
     return scaler
   
 def scaler_trasformer(data, scaler):
@@ -107,7 +107,7 @@ def model_trainer(data, target, output_path):
     # save the model
     initial_type = [('features_input', FloatTensorType([1, data.shape[1]]))]
     onnx = convert_sklearn(rfor, name='rf_champion', initial_types=initial_type)
-    with open(output_path + "rf_champion.onnx", "wb") as f:
+    with open(output_path + "rf_model.onnx", "wb") as f:
         f.write(onnx.SerializeToString())
         f.close()
     return None
@@ -172,13 +172,13 @@ if __name__ == '__main__':
 
     X_train = selector(X_train, config['features_selected'])
     
-    scaler = scaler_trainer(X_train, '.')
+    scaler = scaler_trainer(X_train, './')
 
     X_train = scaler.transform(X_train)
 
-    model_trainer(X_train, y_train, '.')
+    model_trainer(X_train, y_train, './')
 
-    print('Finished training')
+    print('Finished training!')
 
 
 
