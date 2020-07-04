@@ -22,12 +22,17 @@ jobs:
         uses: actions/checkout@v2 
       #2nd: use the action to build the image for testing
       - name: Build action step
-        id: Build
-        # uses: .github/actions/
-        uses: ./test/
-        with: 
-          image-name: 'ml-test'
-          tag: 'v1'
+        uses: docker/build-push-action@v1
+        with:
+          path: ./test/procedural_ml_pipe/
+          tags: ml-test:v1
+          push: false
+        # id: Build
+        # # uses: .github/actions/
+        # uses: ./test/
+        # with: 
+        #   image-name: 'ml-test'
+        #   tag: 'v1'
       #3nd: run the container to test the image
       - name: Run Test step
         run: docker container run ml-test:v1
