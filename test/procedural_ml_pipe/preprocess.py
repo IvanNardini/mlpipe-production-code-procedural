@@ -168,9 +168,9 @@ if __name__ == '__main__':
 
     data = dumminizer(data, config['nominal_predictors'])
 
-    data = selector(data, config['features_selected'])
-
     X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
+
+    X_train = selector(X_train, config['features_selected'])
     
     scaler = scaler_trainer(X_train, '.')
 
@@ -179,8 +179,6 @@ if __name__ == '__main__':
     model_trainer(X_train, y_train, '.')
 
     print('Finished training')
-
-
 
 
 
