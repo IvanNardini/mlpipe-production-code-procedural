@@ -161,7 +161,7 @@ if __name__ == '__main__':
         binning_meta = meta
         data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
         
-        if var not in data.columns():
+        if var not in list(data.columns()):
             print('ok')
         
         print( data[binning_meta['var_name']])
