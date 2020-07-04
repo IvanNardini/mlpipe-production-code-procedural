@@ -27,13 +27,7 @@ jobs:
           path: ./test/procedural_ml_pipe/
           repository: ml-test
           tags: v1
-          push: false
-        # id: Build
-        # # uses: .github/actions/
-        # uses: ./test/
-        # with: 
-        #   image-name: 'ml-test'
-        #   tag: 'v1'
+          push: false # I don't push on docker registry
       #3nd: run the container to test the image
       - name: Run Test step
         run: docker container run ml-test:v1
