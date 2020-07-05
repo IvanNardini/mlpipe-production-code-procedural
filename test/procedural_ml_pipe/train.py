@@ -21,10 +21,10 @@ def train():
     # Read configuration
     stream = open('config.yaml', 'r')
     config = yaml.load(stream)
+
     #Load and prepare data
     logging.info('Loading data...')
     data = data_loader('insurance_claims.csv')
-
     logging.info('Preparing data...')
     data = data_preparer(data, config['dropped_columns'])
 
@@ -50,7 +50,8 @@ def train():
 
     #Selecting Features
     logging.info('Selecting Features...')
-    data = selector(data, config['features_selected'].append(config['target']))
+    model_variables = config['features_selected'].append(config['target'])
+    data = selector(data, model_variables)
 
     #Split and scale data
     logging.info('Splitting Data for Training...')

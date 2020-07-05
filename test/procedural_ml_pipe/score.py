@@ -22,19 +22,29 @@ def score(data):
     config = yaml.load(stream)
     
     #Prepare data
+    logging.info('Preparing data...')
     data = data_preparer(data, config['dropped_columns'])
+
     #Impute missing
+    logging.info('Imputing Missings...')
     for var in config['missing_predictors']:
         data[var] = missing_imputer(data, var, replace='missing')
+    
     #Binning variables
+    logging.info('Binning Variables...')
     for var, meta in config['binning_meta'].items():
         binning_meta = meta
         data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+    
     #Encoding variables
+    logging.info('Encoding Variables...')
     for var, meta in config['encoding_meta'].items():
         data[var] = encoder(data, var, meta)
+    
     #Create Dummies
+    logging.info('Generating Dummies...')
     data = dumminizer(data, config['nominal_predictors'])
+    
     #Split and scale data
     scaler = scaler_trasformer(data, './')
     data = scaler.transform(data)
