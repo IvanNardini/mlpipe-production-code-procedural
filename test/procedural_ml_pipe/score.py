@@ -68,8 +68,10 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(data,
                                                         data[config['target']])
 
-    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
-    logging.info('Scoring process started!')
-    prediction = score(X_test)
-    logging.info('Scoring finished!')
-    logging.info('The prediction label is {}'.format(prediction))
+    print(type(X_test))
+
+    # logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+    # logging.info('Scoring process started!')
+    # prediction = score(X_test)
+    # logging.info('Scoring finished!')
+    # logging.info('The prediction label is {}'.format(prediction))
