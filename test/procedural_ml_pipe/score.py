@@ -51,17 +51,19 @@ def score(data):
     data = scaler.transform(data)
 
     #Score data
-    model_scorer(data, './')
+    model_scorer(data, './*.onnx')
 
 if __name__ == '__main__':
 
+    #For testing the score
+
+    from preprocess import *
     import logging
 
-    # X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
-    # X_train = selector(X_train, config['features_selected'])
+    data = data_loader('insurance_claims.csv')
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    prediction = score()
+    prediction = score(data[:1])
     logging.info('Scoring finished!')
-    logging.info('The score is {}'.format(prediction))
+    logging.info('The prediction label is {}'.format(prediction))
