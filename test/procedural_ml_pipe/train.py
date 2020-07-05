@@ -1,5 +1,5 @@
 #Preprocessing
-import preprocess as pr
+from .preprocess import * as pr
 
 #Utils
 import logging

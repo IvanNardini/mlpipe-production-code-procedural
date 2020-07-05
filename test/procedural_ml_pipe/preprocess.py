@@ -1,3 +1,8 @@
+'''
+preprocess module contains all functions
+train and score steps needs
+'''
+
 # Data Preparation
 import pandas as pd
 import numpy as np
