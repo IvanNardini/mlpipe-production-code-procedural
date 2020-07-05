@@ -63,7 +63,7 @@ def encoder(data, var, mapping):
     :params: data, var, mapping
     :return: DataFrame
     '''
-    if var not in list(data.columns()):
+    if var not in data.columns.values.tolist():
         pass
     return data[var].map(mapping)
 
