@@ -51,9 +51,7 @@ def score(data):
     data = scaler.transform(data)
 
     #Score data
-    prediction = model_scorer(data, './')
-    
-    logging.info('Scoring finished!')
+    model_scorer(data, './')
 
 if __name__ == '__main__':
 
@@ -62,8 +60,8 @@ if __name__ == '__main__':
     # X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
     # X_train = selector(X_train, config['features_selected'])
 
-    # logging.basicConfig(filename='train.log', format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    score()
-    logging.info
-
+    prediction = score()
+    logging.info('Scoring finished!')
+    logging.info('The score is {}'.format(prediction))
