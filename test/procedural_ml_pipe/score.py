@@ -51,9 +51,9 @@ def score(data):
     data = scaler.transform(data)
 
     #Score data
-    model_scorer(data, './')
+    prediction = model_scorer(data, './')
     
-    logging.info('Training finished!')
+    logging.info('Scoring finished!')
 
 if __name__ == '__main__':
 
@@ -65,4 +65,5 @@ if __name__ == '__main__':
     # logging.basicConfig(filename='train.log', format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
     score()
+    logging.info
 
