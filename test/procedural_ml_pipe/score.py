@@ -36,7 +36,7 @@ def score(data):
     #Create Dummies
     data = dumminizer(data, config['nominal_predictors'])
     #Split and scale data
-    scaler = scaler_trainer(data, './')
+    scaler = scaler_trasformer(data, './')
     data = scaler.transform(data)
     #Train the model
     model_scorer(data, './')

@@ -1,5 +1,5 @@
 '''
-preprocess module contains all functions
+preprocess.py module contains all functions
 train and score steps needs
 '''
 
@@ -19,7 +19,6 @@ from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt
 
 #Utils
-import logging
 import joblib
 import ruamel.yaml as yaml
 import warnings
@@ -32,7 +31,6 @@ def data_loader(datapath):
     :params: datapath
     :return: DataFrame
     '''
-    logging.info('Loading data...')
     return pd.read_csv(datapath)
 
 def data_preparer(data, columns_to_drop):
@@ -41,7 +39,6 @@ def data_preparer(data, columns_to_drop):
     :params: data, columns_to_drop
     :return: DataFrame
     '''
-    logging.info('Preparing data...')
     data.drop(columns_to_drop, axis=1, inplace=True)
     data.rename(columns={"capital-gains": "capital_gains", 
                 "capital-loss": "capital_loss"}, inplace=True)
@@ -53,11 +50,9 @@ def missing_imputer(data, var, replace='missing'):
     :params: data, var, replace
     :return: Series
     '''
-    logging.info('Replacing Missings...')
     return data[var].replace('?', replace)
 
 def binner(data, var, new_var_name, bins, bins_labels):
-    logging.info('Binning Variables...')
     data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels)
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
@@ -68,7 +63,6 @@ def encoder(data, var, mapping):
     :params: data, var, mapping
     :return: DataFrame
     '''
-    logging.info('Encoding Variables...')
     return data[var].map(mapping)
 
 def dumminizer(data, columns_to_dummies):
@@ -77,7 +71,6 @@ def dumminizer(data, columns_to_dummies):
     :params: data, columns_to_dummies
     :return: DataFrame
     '''
-    logging.info('Generating Dummies...')
     data = pd.get_dummies(data, columns=columns_to_dummies)
     return data
 
@@ -87,7 +80,6 @@ def selector(data, features_selected):
     :params: data, features_selected
     :return: DataFrame
     '''
-    logging.info('Selecting Features...')
     return data[features_selected]
 
 def data_splitter(data, target):
@@ -96,7 +88,7 @@ def data_splitter(data, target):
     :params: DataFrame, target name
     :return: X_train, X_test, y_train, y_test
     '''
-    logging.info('Splitting Data for Training...')
+    
     X_train, X_test, y_train, y_test = train_test_split(data,
                                                         data[target],
                                                         test_size=0.1,
@@ -109,7 +101,7 @@ def scaler_trainer(data, output_path):
     :params: data, output_path
     :return: scaler
     '''
-    logging.info('Scaling Features...')
+    
     scaler = MinMaxScaler()
     scaler.fit(data)
     joblib.dump(scaler, output_path + 'scaler.pkl')
@@ -121,7 +113,6 @@ def scaler_trasformer(data, scaler):
     :params: data, scaler
     :return: DataFrame
     '''
-    logging.info('Transforming Features...')
     scaler = joblib.load(scaler) 
     return scaler.transform(data)
 
@@ -133,7 +124,6 @@ def model_trainer(data, target, output_path):
     :params: data, target, output_path
     :return: None
     '''
-    logging.info('Training Model...')
     # initialise the model
     rfor = RandomForestClassifier(max_depth=25, 
                                   min_samples_split=5, 
