@@ -24,7 +24,7 @@ jobs:
       - name: Build action step
         uses: docker/build-push-action@v1
         with:
-          path: ./test/procedural_ml_pipe/
+          path: ./test/
           repository: ml-test
           tags: v1
           push: false # I don't push on docker registry
