@@ -38,8 +38,7 @@ def score(data):
 
     #Scale data
     logging.info('Scaling Features...')
-    scaler = scaler_trasformer(data, config['paths']['scaler_path'])
-    data = scaler.transform(data)
+    data = scaler_trasformer(data, config['paths']['scaler_path'])
 
     #Score data
     model_scorer(data, config['paths']['model_path'])
@@ -65,8 +64,10 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(data,
                                                         data[config['target']])
 
+    row_to_score = X_test[:1]
+
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    prediction = score(X_test[:1])
+    prediction = score(row_to_score)
     logging.info('Scoring finished!')
     logging.info('The prediction label is {}'.format(prediction))
