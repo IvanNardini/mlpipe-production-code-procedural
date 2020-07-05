@@ -1,3 +1,7 @@
+paths:
+    data_path: './insurance_claims.csv'
+    scaler_path: './scaler.pkl'
+    model_path: './rf_model.onnx'
 dropped_columns:
 -   policy_number
 -   policy_bind_date

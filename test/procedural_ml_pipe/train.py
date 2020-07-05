@@ -24,7 +24,7 @@ def train():
 
     #Load and prepare data
     logging.info('Loading data...')
-    data = data_loader('insurance_claims.csv')
+    data = data_loader(config['paths']['data_path'])
     logging.info('Preparing data...')
     data = data_preparer(data, config['dropped_columns'])
 
@@ -59,18 +59,18 @@ def train():
     
     #Scaling data
     logging.info('Scaling Features...')
-    scaler = scaler_trainer(X_train, './')
+    scaler = scaler_trainer(X_train, config['paths']['scaler_path'])
     X_train = scaler.transform(X_train)
 
     #Train the model
     logging.info('Training Model...')
-    model_trainer(X_train, y_train, './')
+    model_trainer(X_train, y_train, config['paths']['model_path'])
 
 if __name__ == '__main__':
 
     import logging
     import os
-    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S:%f %p', level=logging.INFO)
+    logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Training process started!')
     train()
     logging.info('Training finished!')
