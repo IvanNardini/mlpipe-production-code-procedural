@@ -6,20 +6,11 @@ to score new data with trained model
 #Preprocessing
 from preprocess import *
 
-#Utils
-import ruamel.yaml as yaml
-import warnings
-warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
-
 #####################
 # Scoring data model#
 #####################
 
 def score(data):
-
-    # Read configuration
-    stream = open('config.yaml', 'r')
-    config = yaml.load(stream)
     
     #Prepare data
     logging.info('Preparing data...')
@@ -45,13 +36,13 @@ def score(data):
     logging.info('Generating Dummies...')
     data = dumminizer(data, config['nominal_predictors'])
 
-    #Split and scale data
+    #Scale data
     logging.info('Scaling Features...')
-    scaler = scaler_trasformer(data, './')
+    scaler = scaler_trasformer(data, config['paths']['scaler_path'])
     data = scaler.transform(data)
 
     #Score data
-    model_scorer(data, './*.onnx')
+    model_scorer(data, config['paths']['model_path'])
 
 if __name__ == '__main__':
 
@@ -60,10 +51,22 @@ if __name__ == '__main__':
     from preprocess import *
     import logging
 
-    data = data_loader('insurance_claims.csv')
+    #Utils
+    import ruamel.yaml as yaml
+    import warnings
+    warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
+
+    # Read configuration
+    stream = open('config.yaml', 'r')
+    config = yaml.load(stream)
+
+    data = data_loader(config['paths']['data_path'])
+
+    X_train, X_test, y_train, y_test = train_test_split(data,
+                                                        config['target'])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    prediction = score(data[:1])
+    prediction = score(X_test[:1])
     logging.info('Scoring finished!')
     logging.info('The prediction label is {}'.format(prediction))

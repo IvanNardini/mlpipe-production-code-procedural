@@ -19,6 +19,10 @@ COPY . .
 
 RUN pip3 install -r requirements.txt
 
+RUN chmod +x ./run.sh
+
 # COPY . .
 
-CMD [ "python3", "./train.py" ]
+# CMD [ "python3", "./train.py" ]
+
+CMD ["/bin/bash", "./run.sh", "train", "score"]
