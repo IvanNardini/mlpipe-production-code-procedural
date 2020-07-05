@@ -1,11 +1,33 @@
-# Preprocessing functions
+# Data Preparation
+import pandas as pd
+import numpy as np
 
+# Model Training
+from sklearn.preprocessing import MinMaxScaler
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+# Model Deployment
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+import onnxruntime as rt
+
+#Utils
+import logging
+import joblib
+import ruamel.yaml as yaml
+import warnings
+warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
+
+# Preprocessing functions
 def data_loader(datapath):
     '''
     Load the data for training
     :params: datapath
     :return: DataFrame
     '''
+    logging.info('Loading data...')
     return pd.read_csv(datapath)
 
 def data_preparer(data, columns_to_drop):
@@ -14,6 +36,7 @@ def data_preparer(data, columns_to_drop):
     :params: data, columns_to_drop
     :return: DataFrame
     '''
+    logging.info('Preparing data...')
     data.drop(columns_to_drop, axis=1, inplace=True)
     data.rename(columns={"capital-gains": "capital_gains", 
                 "capital-loss": "capital_loss"}, inplace=True)
@@ -25,9 +48,11 @@ def missing_imputer(data, var, replace='missing'):
     :params: data, var, replace
     :return: Series
     '''
+    logging.info('Replacing Missings...')
     return data[var].replace('?', replace)
 
 def binner(data, var, new_var_name, bins, bins_labels):
+    logging.info('Binning Variables...')
     data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels)
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
@@ -38,6 +63,7 @@ def encoder(data, var, mapping):
     :params: data, var, mapping
     :return: DataFrame
     '''
+    logging.info('Encoding Variables...')
     return data[var].map(mapping)
 
 def dumminizer(data, columns_to_dummies):
@@ -46,6 +72,7 @@ def dumminizer(data, columns_to_dummies):
     :params: data, columns_to_dummies
     :return: DataFrame
     '''
+    logging.info('Generating Dummies...')
     data = pd.get_dummies(data, columns=columns_to_dummies)
     return data
 
@@ -55,6 +82,7 @@ def selector(data, features_selected):
     :params: data, features_selected
     :return: DataFrame
     '''
+    logging.info('Selecting Features...')
     return data[features_selected]
 
 def data_splitter(data, target):
@@ -63,6 +91,7 @@ def data_splitter(data, target):
     :params: DataFrame, target name
     :return: X_train, X_test, y_train, y_test
     '''
+    logging.info('Splitting Data for Training...')
     X_train, X_test, y_train, y_test = train_test_split(data,
                                                         data[target],
                                                         test_size=0.1,
@@ -75,6 +104,7 @@ def scaler_trainer(data, output_path):
     :params: data, output_path
     :return: scaler
     '''
+    logging.info('Scaling Features...')
     scaler = MinMaxScaler()
     scaler.fit(data)
     joblib.dump(scaler, output_path + 'scaler.pkl')
@@ -86,15 +116,19 @@ def scaler_trasformer(data, scaler):
     :params: data, scaler
     :return: DataFrame
     '''
+    logging.info('Transforming Features...')
     scaler = joblib.load(scaler) 
     return scaler.transform(data)
-    
+
+# Training function
+
 def model_trainer(data, target, output_path):
     '''
     Train the model and store it
     :params: data, target, output_path
     :return: None
     '''
+    logging.info('Training Model...')
     # initialise the model
     rfor = RandomForestClassifier(max_depth=25, 
                                   min_samples_split=5, 
@@ -112,73 +146,73 @@ def model_trainer(data, target, output_path):
         f.close()
     return None
 
-# def model_scorer(data, model):
-#     '''
-#     Score new data with onnx
-#     :params: data, model
-#     :return: list
-#     '''
-#     sess = rt.InferenceSession(model)
+#Scoring function
+def model_scorer(data, model):
+    '''
+    Score new data with onnx
+    :params: data, model
+    :return: list
+    '''
+    sess = rt.InferenceSession(model)
 
-#     input_name = sess.get_inputs()[0].name
-#     label_name = sess.get_outputs()[0].name
+    input_name = sess.get_inputs()[0].name
+    label_name = sess.get_outputs()[0].name
 
-#     score = np.array(data[:1], dtype=np.float32)
-#     predictions_onnx = sess.run([label_name], {input_name: score})
-#     return predictions_onnx[0]
+    score = np.array(data, dtype=np.float32)
+    predictions_onnx = sess.run([label_name], {input_name: score})
+    return predictions_onnx[0]
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    # Data Preparation
-    import pandas as pd
-    import numpy as np
+#     # Data Preparation
+#     import pandas as pd
+#     import numpy as np
 
-    # Model Training
-    from sklearn.preprocessing import MinMaxScaler
-    from imblearn.over_sampling import SMOTE
-    from sklearn.model_selection import train_test_split
-    from sklearn.ensemble import RandomForestClassifier
+#     # Model Training
+#     from sklearn.preprocessing import MinMaxScaler
+#     from imblearn.over_sampling import SMOTE
+#     from sklearn.model_selection import train_test_split
+#     from sklearn.ensemble import RandomForestClassifier
 
-    # Model Deployment
-    from skl2onnx import convert_sklearn
-    from skl2onnx.common.data_types import FloatTensorType
+#     # Model Deployment
+#     from skl2onnx import convert_sklearn
+#     from skl2onnx.common.data_types import FloatTensorType
+#     import onnxruntime as rt
 
-    #Utils
-    import joblib
-    import ruamel.yaml as yaml
-    import warnings
-    warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
+#     #Utils
+#     import joblib
+#     import ruamel.yaml as yaml
+#     import warnings
+#     warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
     
-    stream = open('config.yaml', 'r')
-    config = yaml.load(stream)
+#     stream = open('config.yaml', 'r')
+#     config = yaml.load(stream)
 
-    data = data_loader('insurance_claims.csv')
-    data = data_preparer(data, config['dropped_columns'])
+#     data = data_loader('insurance_claims.csv')
+#     data = data_preparer(data, config['dropped_columns'])
 
-    for var in config['missing_predictors']:
-        data[var] = missing_imputer(data, var, replace='missing')
+#     for var in config['missing_predictors']:
+#         data[var] = missing_imputer(data, var, replace='missing')
 
-    for var, meta in config['binning_meta'].items():
-        binning_meta = meta
-        data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+#     for var, meta in config['binning_meta'].items():
+#         binning_meta = meta
+#         data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
 
-    for var, meta in config['encoding_meta'].items():
-        data[var] = encoder(data, var, meta)
-        print(data[var].unique())
+#     for var, meta in config['encoding_meta'].items():
+#         data[var] = encoder(data, var, meta)
 
-    data = dumminizer(data, config['nominal_predictors'])
+#     data = dumminizer(data, config['nominal_predictors'])
 
-    X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
+#     X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
 
-    X_train = selector(X_train, config['features_selected'])
+#     X_train = selector(X_train, config['features_selected'])
     
-    scaler = scaler_trainer(X_train, './')
+#     scaler = scaler_trainer(X_train, './')
 
-    X_train = scaler.transform(X_train)
+#     X_train = scaler.transform(X_train)
 
-    model_trainer(X_train, y_train, './')
+#     model_trainer(X_train, y_train, './')
 
-    print('Finished training!')
 
 
 
