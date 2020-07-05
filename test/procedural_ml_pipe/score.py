@@ -36,6 +36,10 @@ def score(data):
     logging.info('Generating Dummies...')
     data = dumminizer(data, config['nominal_predictors'])
 
+    #Select Features
+    model_variables = config['features_selected'] + [config['target']]
+    data = selector(data, model_variables)
+
     #Scale data
     logging.info('Scaling Features...')
     data = scaler_trasformer(data, config['paths']['scaler_path'])
@@ -64,7 +68,7 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(data,
                                                         data[config['target']])
     
-    row_to_score = X_test[:1]
+    row_to_score = X_test.loc[1,:]
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
