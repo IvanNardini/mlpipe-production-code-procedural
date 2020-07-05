@@ -18,7 +18,7 @@ warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 
 def train():
 
-    logging.basicConfig(filename='train.log', format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+    # logging.basicConfig(filename='train.log', format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Training process started!')
 
     # Read configuration
