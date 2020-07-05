@@ -39,12 +39,11 @@ def score(data_to_score):
     data = dumminizer(data, config['nominal_predictors'])
 
     #Select Features
-    model_variables = config['features_selected'] + [config['target']]
-    data = selector(data, model_variables)
+    data = selector(data, config['features_selected'])
 
     #Scale data
     logging.info('Scaling Features...')
-    data = scaler_trasformer(data, config['paths']['scaler_path'])
+    data[config['features_selected']] = scaler_trasformer(data, config['paths']['scaler_path'])
 
     #Score data
     model_scorer(data, config['paths']['model_path'], 1) #score only first row (assumption)
