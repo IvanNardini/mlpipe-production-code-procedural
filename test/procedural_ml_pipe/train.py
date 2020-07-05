@@ -18,9 +18,6 @@ warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 
 def train():
 
-    # logging.basicConfig(filename='train.log', format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
-    logging.info('Training process started!')
-
     # Read configuration
     stream = open('config.yaml', 'r')
     config = yaml.load(stream)
@@ -46,8 +43,12 @@ def train():
     X_train = scaler.transform(X_train)
     #Train the model
     model_trainer(X_train, y_train, './')
-    
-    logging.info('Training finished!')
 
 if __name__ == '__main__':
+
+    import logging
+    # logging.basicConfig(filename='train.log', format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+    
+    logging.info('Training process started!')
     train()
+    logging.info('Training finished!')
