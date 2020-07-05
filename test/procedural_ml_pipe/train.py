@@ -50,7 +50,7 @@ def train():
 
     #Selecting Features
     logging.info('Selecting Features...')
-    model_variables = config['features_selected'].append(config['target'])
+    model_variables = config['features_selected'] + list(config['target'])
     data = selector(data, model_variables)
 
     #Split and scale data

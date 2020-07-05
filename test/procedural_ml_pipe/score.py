@@ -44,11 +44,13 @@ def score(data):
     #Create Dummies
     logging.info('Generating Dummies...')
     data = dumminizer(data, config['nominal_predictors'])
-    
+
     #Split and scale data
+    logging.info('Scaling Features...')
     scaler = scaler_trasformer(data, './')
     data = scaler.transform(data)
-    #Train the model
+
+    #Score data
     model_scorer(data, './')
     
     logging.info('Training finished!')
