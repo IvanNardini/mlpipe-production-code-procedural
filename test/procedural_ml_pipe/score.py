@@ -65,7 +65,7 @@ if __name__ == '__main__':
                                                         data[config['target']])
     
     row_to_score = pd.DataFrame([X_test[:1]],
-                                columns = data.columns.difference([config['target']]).tolist())[:1]
+                                columns = data.columns.difference([config['target']]).tolist())
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
