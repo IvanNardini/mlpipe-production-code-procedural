@@ -167,57 +167,6 @@ def model_scorer(data, model):
     predictions_onnx = sess.run([label_name], {input_name: score})
     return predictions_onnx[0]
 
-# if __name__ == '__main__':
-
-#     # Data Preparation
-#     import pandas as pd
-#     import numpy as np
-
-#     # Model Training
-#     from sklearn.preprocessing import MinMaxScaler
-#     from imblearn.over_sampling import SMOTE
-#     from sklearn.model_selection import train_test_split
-#     from sklearn.ensemble import RandomForestClassifier
-
-#     # Model Deployment
-#     from skl2onnx import convert_sklearn
-#     from skl2onnx.common.data_types import FloatTensorType
-#     import onnxruntime as rt
-
-#     #Utils
-#     import joblib
-#     import ruamel.yaml as yaml
-#     import warnings
-#     warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
-    
-#     stream = open('config.yaml', 'r')
-#     config = yaml.load(stream)
-
-#     data = data_loader('insurance_claims.csv')
-#     data = data_preparer(data, config['dropped_columns'])
-
-#     for var in config['missing_predictors']:
-#         data[var] = missing_imputer(data, var, replace='missing')
-
-#     for var, meta in config['binning_meta'].items():
-#         binning_meta = meta
-#         data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
-
-#     for var, meta in config['encoding_meta'].items():
-#         data[var] = encoder(data, var, meta)
-
-#     data = dumminizer(data, config['nominal_predictors'])
-
-#     X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
-
-#     X_train = selector(X_train, config['features_selected'])
-    
-#     scaler = scaler_trainer(X_train, './')
-
-#     X_train = scaler.transform(X_train)
-
-#     model_trainer(X_train, y_train, './')
-
 
 
 
