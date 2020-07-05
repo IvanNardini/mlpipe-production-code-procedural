@@ -63,7 +63,7 @@ if __name__ == '__main__':
     data = data_loader(config['paths']['data_path'])
 
     X_train, X_test, y_train, y_test = train_test_split(data,
-                                                        config['target'])
+                                                        data[config['target']])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
