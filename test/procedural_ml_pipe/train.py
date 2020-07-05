@@ -4,7 +4,7 @@ to train model
 '''
 
 #Preprocessing
-from .preprocess import *
+from preprocess import *
 
 #Utils
 import logging
