@@ -155,7 +155,7 @@ def model_scorer(data, model):
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
 
-    score = np.array(data, dtype=np.float32)
+    score = np.array(data.iloc[0,:], dtype=np.float32)
     predictions_onnx = sess.run([label_name], {input_name: score})
     return predictions_onnx[0]
 
