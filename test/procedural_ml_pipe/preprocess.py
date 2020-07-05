@@ -144,7 +144,7 @@ def model_trainer(data, target, output_path):
     return None
 
 #Scoring function
-def model_scorer(data, model):
+def model_scorer(data, model, index):
     '''
     Score new data with onnx
     :params: data, model
@@ -155,11 +155,11 @@ def model_scorer(data, model):
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
 
-    score = np.array(data.iloc[0,:], dtype=np.float32)
+    row_to_score = pd.DataFrame([data.iloc[index]])
+
+    score = np.array(row_to_score, dtype=np.float32)
     predictions_onnx = sess.run([label_name], {input_name: score})
     return predictions_onnx[0]
-
-
 
 
 

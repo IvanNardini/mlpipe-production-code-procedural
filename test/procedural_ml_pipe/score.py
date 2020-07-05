@@ -45,7 +45,7 @@ def score(data_to_score):
     data = scaler_trasformer(data, config['paths']['scaler_path'])
 
     #Score data
-    model_scorer(data, config['paths']['model_path'])
+    model_scorer(data, config['paths']['model_path'], 1) #score only first row (assumption)
 
 if __name__ == '__main__':
 
