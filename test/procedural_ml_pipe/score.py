@@ -68,7 +68,7 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(data,
                                                         data[config['target']])
     
-    row_to_score = X_test.loc[1,:]
+    row_to_score = pd.DataFrame([X_test.iloc[0,:]])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
