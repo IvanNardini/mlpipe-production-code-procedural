@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
     import logging
     import os
-    logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Training process started!')
     train()
     logging.info('Training finished!')
