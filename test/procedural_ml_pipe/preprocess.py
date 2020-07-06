@@ -57,6 +57,16 @@ def binner(data, var, new_var_name, bins, bins_labels):
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
 
+def encoder(data, var, mapping):
+    '''
+    Encode all variables for training
+    :params: data, var, mapping
+    :return: DataFrame
+    '''
+    if var not in data.columns.values.tolist():
+        pass
+    return data[var].map(mapping)
+
 def dumminizer(data, columns_to_dummies, dummies_meta):
     '''
     Generate dummies for nominal variables
@@ -78,21 +88,12 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
             print(var)
             print(cat_names)
             print(obs_cat_names)
+            print(cat_miss_labels)
             #for each labels, create a variables
             for cat in cat_miss_labels:
                 data[cat] = 0
         data = data.drop(var, 1)
     return data
-
-def encoder(data, var, mapping):
-    '''
-    Encode all variables for training
-    :params: data, var, mapping
-    :return: DataFrame
-    '''
-    if var not in data.columns.values.tolist():
-        pass
-    return data[var].map(mapping)
 
 def scaler_trainer(data, output_path):
     '''
