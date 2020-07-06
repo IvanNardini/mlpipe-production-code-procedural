@@ -19,6 +19,7 @@ from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt
 
 #Utils
+from collections import Counter
 import joblib
 import ruamel.yaml as yaml
 import warnings
