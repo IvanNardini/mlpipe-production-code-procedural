@@ -55,7 +55,7 @@ def train():
 
     #Balancing sample
     logging.info('Oversampling with SMOTE...')
-    X, y = balancer(data[config['features_selected']], data[config['target']])
+    X, y = balancer(data, config['features_selected'], config['target'])
 
     #Split and scale data
     logging.info('Splitting Data for Training...')
