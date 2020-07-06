@@ -48,20 +48,19 @@ def train():
     logging.info('Generating Dummies...')
     data = dumminizer(data, config['nominal_predictors'])
 
-    #Selecting Features
-    logging.info('Selecting Features...')
-    model_variables = config['features_selected'] + [config['target']]
-    data = selector(data, model_variables)
+    #Scaling data
+    logging.info('Scaling Features...')
+    scaler = scaler_trainer(data[config['features']], config['paths']['scaler_path'])
+    data[config['features']] = scaler_trasformer(data[config['features']], config['paths']['scaler_path'])
+
+    #Balancing sample
+    logging.info('Oversampling with SMOTE...')
+    X, y = balancer(data, config['features_selected'], config['target'])
 
     #Split and scale data
     logging.info('Splitting Data for Training...')
-    X_train, X_test, y_train, y_test = data_splitter(data, config['target'])
+    X_train, X_test, y_train, y_test = data_splitter(X, y)
     
-    #Scaling data
-    logging.info('Scaling Features...')
-    scaler = scaler_trainer(X_train, config['paths']['scaler_path'])
-    X_train = scaler.transform(X_train)
-
     #Train the model
     logging.info('Training Model...')
     model_trainer(X_train, y_train, config['paths']['model_path'])
