@@ -69,11 +69,11 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
         cat_names = sorted(dummies_meta[var])
         print(cat_names)
         #pick labels
+        print(list(set(data[var].unique())))
         obs_cat_names = sorted(list(set(data[var].unique())))
         print(obs_cat_names)
         #check if they are equal and get dummies
-        if obs_cat_names == cat_names:
-            print('suca')
+        # if obs_cat_names == cat_names:
             # dummies = pd.get_dummies(data[var])
             # data = pd.concat([data, dummies], axis=1)
         # else:
