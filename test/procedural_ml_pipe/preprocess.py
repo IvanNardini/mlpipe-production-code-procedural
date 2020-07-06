@@ -66,8 +66,10 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
     for var in columns_to_dummies:
     #check for dictionary
         cat_names = sorted(dummies_meta[var])
+        print(cat_names)
         #pick labels
         obs_cat_names = sorted(list(set(data[var].unique())))
+        print(obs_cat_names)
         #check if they are equal and get dummies
         if obs_cat_names == cat_names:
             print('suca')
