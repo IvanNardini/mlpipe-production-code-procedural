@@ -82,15 +82,16 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
         if obs_cat_names == cat_names:
             dummies = pd.get_dummies(data[var], prefix=var)
             data = pd.concat([data, dummies], axis=1)
-            data = data.drop(var, 1)
         else:
             #check missing labels
             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
             #for each labels, create a variables
             for cat in cat_miss_labels:
                 data[cat] = 0
-            data = data.drop(var, 1)
-    print(data.columns)
+            dummies = pd.get_dummies(data[var], prefix=var)
+            data = pd.concat([data, dummies], axis=1)
+            
+    data = data.drop(var, 1)
     return data
 
 def scaler_trainer(data, output_path):
