@@ -75,6 +75,9 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
         else:
             #check missing labels
             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
+            print(var)
+            print(cat_names)
+            print(obs_cat_names)
             #for each labels, create a variables
             for cat in cat_miss_labels:
                 data[cat] = 0
