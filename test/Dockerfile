@@ -27,6 +27,4 @@ RUN chmod +x ./run.sh
 
 # CMD [ "python3", "./train.py" ]
 
-CMD ["/bin/bash", "./run.sh", "train"] 
-
-#"score"
+CMD ["/bin/bash", "./run.sh", "train". "score"]
