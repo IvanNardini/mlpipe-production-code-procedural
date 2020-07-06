@@ -90,8 +90,8 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
                 data[cat] = 0
             dummies = pd.get_dummies(data[var], prefix=var)
             data = pd.concat([data, dummies], axis=1)
+        data = data.drop(var, 1)
     print(data.columns)
-    data = data.drop(var, 1)
     return data
 
 def scaler_trainer(data, output_path):
