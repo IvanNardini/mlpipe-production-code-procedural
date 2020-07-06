@@ -19,7 +19,6 @@ from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt
 
 #Utils
-from collections import Counter
 import joblib
 import ruamel.yaml as yaml
 import warnings
@@ -66,11 +65,12 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
     '''
     for var in columns_to_dummies:
     #check for dictionary
-        cat_names = dummies_meta[var]
+        cat_names = sorted(dummies_meta[var])
         #pick labels
-        obs_cat_names = list(set(data[var].unique()))
+        obs_cat_names = sorted(list(set(data[var].unique())))
         #check if they are equal and get dummies
-        # if Counter(obs_cat_names) == Counter(cat_names):
+        if obs_cat_names == cat_names:
+            print('suca')
             # dummies = pd.get_dummies(data[var])
             # data = pd.concat([data, dummies], axis=1)
         # else:
