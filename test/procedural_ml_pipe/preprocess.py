@@ -65,6 +65,7 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
     '''
     for var in columns_to_dummies:
     #check for dictionary
+        print(var)
         cat_names = sorted(dummies_meta[var])
         print(cat_names)
         #pick labels
