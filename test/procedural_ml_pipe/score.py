@@ -44,7 +44,7 @@ def score(data_to_score):
 
     #Score data
     logging.info('Scoring...')
-    model_scorer(data[config['features_selected']], config['paths']['model_path'], 1) #score only first row (assumption)
+    return model_scorer(data[config['features_selected']], config['paths']['model_path'], 1) #score only first row (assumption)
 
 if __name__ == '__main__':
 
