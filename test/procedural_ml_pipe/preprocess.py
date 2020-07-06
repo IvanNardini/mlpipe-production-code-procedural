@@ -57,6 +57,30 @@ def binner(data, var, new_var_name, bins, bins_labels):
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
 
+def dumminizer(data, columns_to_dummies, dummies_meta):
+    '''
+    Generate dummies for nominal variables
+    :params: data, columns_to_dummies
+    :return: DataFrame
+    '''
+    for var in columns_to_dummies:
+    #check for dictionary
+        cat_names = dummies_meta[var]
+        #pick labels
+        obs_cat_names = list(set(data[var].unique()))
+        #check if they are equal and get dummies
+        if Counter(obs_cat_names) == Counter(cat_names):
+            dummies = pd.get_dummies(data[var])
+            data = pd.concat([data, dummies], axis=1)
+        else:
+            #check missing labels
+            cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
+            #for each labels, create a variables
+            for cat in cat_miss_labels:
+                data[cat] = 0
+        data = data.drop(var, 1)
+    return data
+
 def encoder(data, var, mapping):
     '''
     Encode all variables for training
@@ -66,15 +90,6 @@ def encoder(data, var, mapping):
     if var not in data.columns.values.tolist():
         pass
     return data[var].map(mapping)
-
-def dumminizer(data, columns_to_dummies):
-    '''
-    Generate dummies for nominal variables
-    :params: data, columns_to_dummies
-    :return: DataFrame
-    '''
-    data = pd.get_dummies(data, columns=columns_to_dummies)
-    return data
 
 def scaler_trainer(data, output_path):
     '''

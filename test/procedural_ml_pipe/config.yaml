@@ -265,10 +265,64 @@ binning_meta:
         -   351-400
         -   401-450
         -   451-500
+dummies_meta:
+    insured_sex:
+    -   MALE
+    -   FEMALE
+    insured_hobbies:
+    -   others
+    -   chess
+    -   cross-fit
+    incident_type:
+    -   Single Vehicle Collision
+    -   Vehicle Theft
+    -   Multi-vehicle Collision
+    -   Parked Car
+    collision_type:
+    -   Side Collision
+    -   missing
+    -   Rear Collision
+    -   Front Collision
+    authorities_contacted:
+    -   Police
+    -   None
+    -   Fire
+    -   Other
+    -   Ambulance
+    property_damage:
+    -   YES
+    -   missing
+    -   NO
+    police_report_available:
+    -   YES
+    -   missing
+    -   NO
+    age_groups:
+    -   46-50
+    -   41-45
+    -   26-30
+    -   36-40
+    -   31-35
+    -   61-65
+    -   21-25
+    -   56-60
+    -   51-55
+    -   15-20
+    months_as_customer_groups:
+    -   301-350
+    -   201-250
+    -   101-150
+    -   251-300
+    -   151-200
+    -   0-50
+    -   451-500
+    -   51-100
+    -   351-400
+    -   401-450
 encoding_meta:
     fraud_reported:
-        Y: 0
-        N: 1
+        N: 0
+        Y: 1
     insured_hobbies:
         sleeping: others
         reading: others

@@ -46,7 +46,7 @@ def train():
     
     #Create Dummies
     logging.info('Generating Dummies...')
-    data = dumminizer(data, config['nominal_predictors'])
+    data = dumminizer(data, config['nominal_predictors'], config['dummies_meta'])
 
     #Scaling data
     logging.info('Scaling Features...')

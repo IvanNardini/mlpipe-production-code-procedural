@@ -38,15 +38,13 @@ def score(data_to_score):
     logging.info('Generating Dummies...')
     data = dumminizer(data, config['nominal_predictors'])
 
-    #Select Features
-    data = selector(data, config['features_selected'])
-
-    #Scale data
+    #Scaling data
     logging.info('Scaling Features...')
-    data[config['features_selected']] = scaler_trasformer(data, config['paths']['scaler_path'])
+    data[config['features']] = scaler_trasformer(data[config['features']], config['paths']['scaler_path'])
 
     #Score data
-    model_scorer(data, config['paths']['model_path'], 1) #score only first row (assumption)
+    logging.info('Scoring...')
+    model_scorer(data[config['features']], config['paths']['model_path'], 1) #score only first row (assumption)
 
 if __name__ == '__main__':
 
