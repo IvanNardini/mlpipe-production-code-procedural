@@ -80,6 +80,7 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
             for cat in cat_miss_labels:
                 data[cat] = 0
         data = data.drop(var, 1)
+        print(data.columns)
     return data
 
 def encoder(data, var, mapping):
