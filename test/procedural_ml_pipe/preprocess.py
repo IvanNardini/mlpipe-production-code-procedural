@@ -70,17 +70,16 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
         obs_cat_names = sorted(list(set(data[var].unique())))
         #check if they are equal and get dummies
         if obs_cat_names == cat_names:
-            print('ok')
-    #         dummies = pd.get_dummies(data[var])
-    #         data = pd.concat([data, dummies], axis=1)
-    #     else:
-    #         #check missing labels
-    #         cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
-    #         #for each labels, create a variables
-    #         for cat in cat_miss_labels:
-    #             data[cat] = 0
-    #     data = data.drop(var, 1)
-    # return data
+            dummies = pd.get_dummies(data[var], prefix=var)
+            data = pd.concat([data, dummies], axis=1)
+        else:
+            #check missing labels
+            cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
+            #for each labels, create a variables
+            for cat in cat_miss_labels:
+                data[cat] = 0
+        data = data.drop(var, 1)
+    return data
 
 def encoder(data, var, mapping):
     '''
