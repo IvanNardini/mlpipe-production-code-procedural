@@ -53,7 +53,7 @@ def missing_imputer(data, var, replace='missing'):
     return data[var].replace('?', replace)
 
 def binner(data, var, new_var_name, bins, bins_labels):
-    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels)
+    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels, include_lowest= True)
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
 
