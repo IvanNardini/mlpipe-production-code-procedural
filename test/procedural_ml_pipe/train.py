@@ -50,7 +50,7 @@ def train():
 
     #Scaling data
     logging.info('Scaling Features...')
-    scaler = scaler_trainer(data, config['paths']['scaler_path'])
+    scaler = scaler_trainer(data[config['features']], config['paths']['scaler_path'])
     data[config['features']] = scaler_trasformer(data[config['features']], config['paths']['scaler_path'])
 
     #Balancing sample
