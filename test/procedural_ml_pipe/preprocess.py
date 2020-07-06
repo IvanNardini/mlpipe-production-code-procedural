@@ -88,11 +88,33 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
             #for each labels, create a variables
             for cat in cat_miss_labels:
                 data[cat] = 0
-            dummies = pd.get_dummies(data[var], prefix=var)
-            data = pd.concat([data, dummies], axis=1)
+        dummies = pd.get_dummies(data[var], prefix=var)
+        data = pd.concat([data, dummies], axis=1)
         data = data.drop(var, 1)
-    print(data.columns)
     return data
+
+# def dumminizer(data, columns_to_dummies, dummies_meta):
+#     '''
+#     Generate dummies for nominal variables
+#     :params: data, columns_to_dummies
+#     :return: DataFrame
+#     '''
+#     for var in columns_to_dummies:
+#     #check for dictionary
+#         cat_names = sorted(dummies_meta[var])
+#         #pick labels
+#         obs_cat_names = sorted(list(set(data[var].unique())))
+#         #check if they are equal and get dummies
+#         if obs_cat_names != cat_names:
+#             #check missing labels
+#             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
+#             #for each labels, create a variables
+#             for cat in cat_miss_labels:
+#                 data[cat] = 0
+#         dummies = pd.get_dummies(data[var], prefix=var)
+#         data = pd.concat([data, dummies], axis=1)
+#         data = data.drop(var, 1)
+#     return data
 
 def scaler_trainer(data, output_path):
     '''
