@@ -67,7 +67,6 @@ def train():
 
 if __name__ == '__main__':
 
-    
     import logging
     from collections import Counter
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
