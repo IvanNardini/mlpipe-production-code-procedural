@@ -36,7 +36,7 @@ def score(data_to_score):
     
     #Create Dummies
     logging.info('Generating Dummies...')
-    data = dumminizer(data, config['nominal_predictors'])
+    data = dumminizer(data, config['nominal_predictors'], config['dummies_meta'])
 
     #Scaling data
     logging.info('Scaling Features...')
@@ -44,7 +44,7 @@ def score(data_to_score):
 
     #Score data
     logging.info('Scoring...')
-    model_scorer(data[config['features']], config['paths']['model_path'], 1) #score only first row (assumption)
+    model_scorer(data[config['features_selected']], config['paths']['model_path'], 1) #score only first row (assumption)
 
 if __name__ == '__main__':
 
