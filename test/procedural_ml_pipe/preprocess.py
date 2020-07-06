@@ -67,6 +67,32 @@ def encoder(data, var, mapping):
         pass
     return data[var].map(mapping)
 
+# def dumminizer(data, columns_to_dummies, dummies_meta):
+#     '''
+#     Generate dummies for nominal variables
+#     :params: data, columns_to_dummies
+#     :return: DataFrame
+#     '''
+#     for var in columns_to_dummies:
+#     #check for dictionary
+#         cat_names = sorted(dummies_meta[var])
+#         #pick labels
+#         obs_cat_names = sorted(list(set(data[var].unique())))
+#         #check if they are equal and get dummies
+#         if obs_cat_names == cat_names:
+#             dummies = pd.get_dummies(data[var], prefix=var)
+#             data = pd.concat([data, dummies], axis=1)
+#         else:
+#             dummies = pd.get_dummies(data[var], prefix=var)
+#             data = pd.concat([data, dummies], axis=1)
+#             #check missing labels
+#             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
+#             #for each labels, create a variables
+#             for cat in cat_miss_labels:
+#                 data[cat] = 0
+#         data = data.drop(var, 1)
+#     return data
+
 def dumminizer(data, columns_to_dummies, dummies_meta):
     '''
     Generate dummies for nominal variables
@@ -74,25 +100,17 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
     :return: DataFrame
     '''
     for var in columns_to_dummies:
-    #check for dictionary
         cat_names = sorted(dummies_meta[var])
-        #pick labels
         obs_cat_names = sorted(list(set(data[var].unique())))
-        #check if they are equal and get dummies
-        if obs_cat_names == cat_names:
-            dummies = pd.get_dummies(data[var], prefix=var)
-            data = pd.concat([data, dummies], axis=1)
-        else:
-            dummies = pd.get_dummies(data[var], prefix=var)
-            data = pd.concat([data, dummies], axis=1)
-            #check missing labels
+        dummies = pd.get_dummies(data[var], prefix=var)
+        data = pd.concat([data, dummies], axis=1)
+        if obs_cat_names != cat_names:
             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
-            #for each labels, create a variables
             for cat in cat_miss_labels:
                 data[cat] = 0
         data = data.drop(var, 1)
     return data
-
+    
 def scaler_trainer(data, output_path):
     '''
     Fit the scaler on predictors
