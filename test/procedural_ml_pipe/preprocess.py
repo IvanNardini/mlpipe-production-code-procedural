@@ -64,6 +64,7 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
     :return: DataFrame
     '''
     for var in columns_to_dummies:
+        print(var)
     #check for dictionary
         cat_names = sorted(dummies_meta[var])
         #pick labels
@@ -75,6 +76,7 @@ def dumminizer(data, columns_to_dummies, dummies_meta):
         else:
             #check missing labels
             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names]
+            print(cat_miss_labels)
             #for each labels, create a variables
             for cat in cat_miss_labels:
                 data[cat] = 0

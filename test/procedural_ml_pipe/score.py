@@ -44,7 +44,9 @@ def score(data_to_score):
 
     #Score data
     logging.info('Scoring...')
-    return model_scorer(data[config['features_selected']], config['paths']['model_path'], 1) #score only first row (assumption)
+    prediction = model_scorer(data[config['features_selected']], config['paths']['model_path'], 1) #score only first row (assumption)
+
+    return prediction
 
 if __name__ == '__main__':
 
