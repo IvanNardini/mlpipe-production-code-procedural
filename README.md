@@ -8,7 +8,7 @@ The purpose is getting my hands dirty with its key principles and challenges I l
 
 To make things easier, I sample the Kaggle’s Fraud Claim Detection based on the Auto Insurance Claims Data.
 
-[a link](https://www.kaggle.com/buntyshah/auto-insurance-claims-data) 
+[Kaggle: Insurance Fraud Claims Detection](https://www.kaggle.com/buntyshah/auto-insurance-claims-data) 
 
 In particular, I try to replicate at OmkarReddy and Bunty Shah user’s notebooks.
 
