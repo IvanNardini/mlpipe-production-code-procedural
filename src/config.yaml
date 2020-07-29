@@ -1,361 +1,408 @@
-paths:
-    data_path: './insurance_claims.csv'
-    scaler_path: './scaler.pkl'
-    model_path: './rf_model.onnx'
-dropped_columns:
--   policy_number
--   policy_bind_date
--   policy_state
--   policy_csl
--   insured_zip
--   insured_occupation
--   incident_date
--   insured_education_level
--   insured_relationship
--   injury_claim
--   property_claim
--   vehicle_claim
--   incident_state
--   incident_city
--   incident_location
--   auto_model
--   auto_make
--   auto_year
--   _c39
-renamed_columns:
-    capital-gains: capital_gains
-    capital-loss: capital_loss
-target: fraud_reported
-predictors:
--   months_as_customer
--   age
--   policy_deductable
--   policy_annual_premium
--   umbrella_limit
--   insured_sex
--   insured_hobbies
--   capital_gains
--   capital_loss
--   incident_type
--   collision_type
--   incident_severity
--   authorities_contacted
--   incident_hour_of_the_day
--   number_of_vehicles_involved
--   property_damage
--   bodily_injuries
--   witnesses
--   police_report_available
--   total_claim_amount
-missing_predictors:
--   collision_type
--   property_damage
--   police_report_available
-numerical_predictors:
--   months_as_customer
--   age
--   policy_deductable
--   policy_annual_premium
--   umbrella_limit
--   capital_gains
--   capital_loss
--   incident_hour_of_the_day
--   number_of_vehicles_involved
--   bodily_injuries
--   witnesses
--   total_claim_amount
-discrete_predictors:
--   policy_deductable
--   umbrella_limit
--   incident_hour_of_the_day
--   number_of_vehicles_involved
--   bodily_injuries
--   witnesses
-continuous_predictors:
--   months_as_customer
--   age
--   policy_annual_premium
--   capital_gains
--   capital_loss
--   total_claim_amount
-categorical_predictors:
--   insured_sex
--   insured_hobbies
--   incident_type
--   collision_type
--   incident_severity
--   authorities_contacted
--   property_damage
--   police_report_available
--   policy_deductable_groups
--   age_groups
--   policy_annual_premium_groups
--   months_as_customer_groups
-ordinal_predictors:
--   incident_severity
--   policy_annual_premium_groups
--   policy_deductable_groups
-nominal_predictors:
--   insured_sex
--   insured_hobbies
--   incident_type
--   collision_type
--   authorities_contacted
--   property_damage
--   police_report_available
--   age_groups
--   months_as_customer_groups
-binned_variables:
--   policy_deductable
--   age
--   policy_annual_premium
--   months_as_customer
-encode_variables:
--   fraud_reported
--   insured_hobbies
--   incident_severity
--   policy_annual_premium_groups
--   policy_deductable_groups
-features:
--   umbrella_limit
--   capital_gains
--   capital_loss
--   incident_severity
--   incident_hour_of_the_day
--   number_of_vehicles_involved
--   bodily_injuries
--   witnesses
--   total_claim_amount
--   policy_deductable_groups
--   policy_annual_premium_groups
--   insured_sex_FEMALE
--   insured_sex_MALE
--   insured_hobbies_chess
--   insured_hobbies_cross-fit
--   insured_hobbies_others
--   incident_type_Multi-vehicle Collision
--   incident_type_Parked Car
--   incident_type_Single Vehicle Collision
--   incident_type_Vehicle Theft
--   collision_type_Front Collision
--   collision_type_Rear Collision
--   collision_type_Side Collision
--   collision_type_missing
--   authorities_contacted_Ambulance
--   authorities_contacted_Fire
--   authorities_contacted_None
--   authorities_contacted_Other
--   authorities_contacted_Police
--   property_damage_NO
--   property_damage_YES
--   property_damage_missing
--   police_report_available_NO
--   police_report_available_YES
--   police_report_available_missing
--   age_groups_15-20
--   age_groups_21-25
--   age_groups_26-30
--   age_groups_31-35
--   age_groups_36-40
--   age_groups_41-45
--   age_groups_46-50
--   age_groups_51-55
--   age_groups_56-60
--   age_groups_61-65
--   months_as_customer_groups_0-50
--   months_as_customer_groups_51-100
--   months_as_customer_groups_101-150
--   months_as_customer_groups_151-200
--   months_as_customer_groups_201-250
--   months_as_customer_groups_251-300
--   months_as_customer_groups_301-350
--   months_as_customer_groups_351-400
--   months_as_customer_groups_401-450
--   months_as_customer_groups_451-500
-features_selected:
--   bodily_injuries
--   capital_gains
--   capital_loss
--   incident_hour_of_the_day
--   incident_severity
--   insured_hobbies_chess
--   insured_hobbies_cross-fit
--   insured_hobbies_others
--   policy_annual_premium_groups
--   policy_deductable_groups
--   total_claim_amount
--   umbrella_limit
--   witnesses
-binning_meta:
-    policy_deductable:
-        var_name: policy_deductable_groups
-        bins:
-        -   0
-        -   500
-        -   1000
-        -   1500
-        -   2000
-        bins_labels:
-        -   0-500
-        -   501-1000
-        -   1001-1500
-        -   1501-2000
-    age:
-        var_name: age_groups
-        bins:
-        -   15
-        -   20
-        -   25
-        -   30
-        -   35
-        -   40
-        -   45
-        -   50
-        -   55
-        -   60
-        -   65
-        bins_labels:
-        -   15-20
-        -   21-25
-        -   26-30
-        -   31-35
-        -   36-40
-        -   41-45
+data_ingestion:
+    data_path: tofill
+    data_map:
+        target: fraud_reported
+        variables:
+        -   months_as_customer
+        -   age
+        -   policy_number
+        -   policy_bind_date
+        -   policy_state
+        -   policy_csl
+        -   policy_deductable
+        -   policy_annual_premium
+        -   umbrella_limit
+        -   insured_zip
+        -   insured_sex
+        -   insured_education_level
+        -   insured_occupation
+        -   insured_hobbies
+        -   insured_relationship
+        -   capital-gains
+        -   capital-loss
+        -   incident_date
+        -   incident_type
+        -   collision_type
+        -   incident_severity
+        -   authorities_contacted
+        -   incident_state
+        -   incident_city
+        -   incident_location
+        -   incident_hour_of_the_day
+        -   number_of_vehicles_involved
+        -   property_damage
+        -   bodily_injuries
+        -   witnesses
+        -   police_report_available
+        -   total_claim_amount
+        -   injury_claim
+        -   property_claim
+        -   vehicle_claim
+        -   auto_make
+        -   auto_model
+        -   auto_year
+        -   _c39
+preprocessing:
+    dropped_columns:
+    -   policy_number
+    -   policy_bind_date
+    -   policy_state
+    -   policy_csl
+    -   insured_zip
+    -   insured_occupation
+    -   incident_date
+    -   insured_education_level
+    -   insured_relationship
+    -   injury_claim
+    -   property_claim
+    -   vehicle_claim
+    -   incident_state
+    -   incident_city
+    -   incident_location
+    -   auto_model
+    -   auto_make
+    -   auto_year
+    -   _c39
+    renamed_columns:
+        capital-gains: capital_gains
+        capital-loss: capital_loss
+    missing_predictors:
+    -   collision_type
+    -   property_damage
+    -   police_report_available
+    train_test_split_params:
+        test_size: 0.2
+        random_state: 1
+features_engineering:
+    predictors:
+    -   months_as_customer
+    -   age
+    -   policy_deductable
+    -   policy_annual_premium
+    -   umbrella_limit
+    -   insured_sex
+    -   insured_hobbies
+    -   capital_gains
+    -   capital_loss
+    -   incident_type
+    -   collision_type
+    -   incident_severity
+    -   authorities_contacted
+    -   incident_hour_of_the_day
+    -   number_of_vehicles_involved
+    -   property_damage
+    -   bodily_injuries
+    -   witnesses
+    -   police_report_available
+    -   total_claim_amount
+    encode_variables:
+    -   fraud_reported
+    -   insured_hobbies
+    -   incident_severity
+    -   policy_annual_premium_groups
+    -   policy_deductable_groups
+    encoding_meta:
+        fraud_reported:
+            N: 0
+            Y: 1
+        insured_hobbies:
+            chess: chess
+            paintball: others
+            cross-fit: cross-fit
+            kayaking: others
+            hiking: others
+            polo: others
+            camping: others
+            movies: others
+            sleeping: others
+            exercise: others
+            basketball: others
+            base-jumping: others
+            dancing: others
+            yachting: others
+            skydiving: others
+            reading: others
+            golf: others
+            board-games: others
+            video-games: others
+            bungie-jumping: others
+        incident_severity:
+            Trivial Damage: 0
+            Minor Damage: 1
+            Major Damage: 2
+            Total Loss: 3
+        policy_annual_premium_groups:
+            very low: 0
+            low: 1
+            medium: 2
+            high: 3
+            very high: 4
+        policy_deductable_groups:
+            0-500: 0
+            501-1000: 1
+            1501-2000: 2
+    numerical_predictors:
+    -   months_as_customer
+    -   age
+    -   policy_deductable
+    -   policy_annual_premium
+    -   umbrella_limit
+    -   capital_gains
+    -   capital_loss
+    -   incident_hour_of_the_day
+    -   number_of_vehicles_involved
+    -   bodily_injuries
+    -   witnesses
+    -   total_claim_amount
+    discrete_predictors:
+    -   policy_deductable
+    -   umbrella_limit
+    -   incident_hour_of_the_day
+    -   number_of_vehicles_involved
+    -   bodily_injuries
+    -   witnesses
+    continuous_predictors:
+    -   months_as_customer
+    -   age
+    -   policy_annual_premium
+    -   capital_gains
+    -   capital_loss
+    -   total_claim_amount
+    binned_variables:
+    -   policy_deductable
+    -   age
+    -   policy_annual_premium
+    -   months_as_customer
+    binning_meta:
+        policy_deductable:
+            var_name: policy_deductable_groups
+            bins:
+            -   0
+            -   500
+            -   1000
+            -   1500
+            -   2000
+            bins_labels:
+            -   0-500
+            -   501-1000
+            -   1001-1500
+            -   1501-2000
+        age:
+            var_name: age_groups
+            bins:
+            -   15
+            -   20
+            -   25
+            -   30
+            -   35
+            -   40
+            -   45
+            -   50
+            -   55
+            -   60
+            -   65
+            bins_labels:
+            -   15-20
+            -   21-25
+            -   26-30
+            -   31-35
+            -   36-40
+            -   41-45
+            -   46-50
+            -   51-55
+            -   56-60
+            -   61-65
+        policy_annual_premium:
+            var_name: policy_annual_premium_groups
+            bins:
+            -   0
+            -   500
+            -   1000
+            -   1500
+            -   2000
+            -   2500
+            bins_labels:
+            -   very low
+            -   low
+            -   medium
+            -   high
+            -   very high
+        months_as_customer:
+            var_name: months_as_customer_groups
+            bins:
+            -   0
+            -   500
+            -   1000
+            -   1500
+            -   2000
+            -   2500
+            bins_labels:
+            -   0-50
+            -   51-100
+            -   101-150
+            -   151-200
+            -   201-250
+            -   251-300
+            -   301-350
+            -   351-400
+            -   401-450
+            -   451-500
+    categorical_predictors:
+    -   insured_sex
+    -   insured_hobbies
+    -   incident_type
+    -   collision_type
+    -   incident_severity
+    -   authorities_contacted
+    -   property_damage
+    -   police_report_available
+    -   policy_deductable_groups
+    -   age_groups
+    -   policy_annual_premium_groups
+    -   months_as_customer_groups
+    ordinal_predictors:
+    -   incident_severity
+    -   policy_annual_premium_groups
+    -   policy_deductable_groups
+    nominal_predictors:
+    -   insured_sex
+    -   insured_hobbies
+    -   incident_type
+    -   collision_type
+    -   authorities_contacted
+    -   property_damage
+    -   police_report_available
+    -   age_groups
+    -   months_as_customer_groups
+    dummies_meta:
+        insured_sex:
+        -   MALE
+        -   FEMALE
+        insured_hobbies:
+        -   chess
+        -   others
+        -   cross-fit
+        incident_type:
+        -   Single Vehicle Collision
+        -   Multi-vehicle Collision
+        -   Vehicle Theft
+        -   Parked Car
+        collision_type:
+        -   Rear Collision
+        -   Side Collision
+        -   Front Collision
+        -   missing
+        authorities_contacted:
+        -   Ambulance
+        -   Fire
+        -   Police
+        -   Other
+        -   None
+        property_damage:
+        -   YES
+        -   NO
+        -   missing
+        police_report_available:
+        -   YES
+        -   missing
+        -   NO
+        age_groups:
         -   46-50
+        -   31-35
+        -   41-45
+        -   26-30
+        -   36-40
         -   51-55
-        -   56-60
+        -   21-25
         -   61-65
-    policy_annual_premium:
-        var_name: policy_annual_premium_groups
-        bins:
-        -   0
-        -   500
-        -   1000
-        -   1500
-        -   2000
-        -   2500
-        bins_labels:
-        -   very low
-        -   low
-        -   medium
-        -   high
-        -   very high
-    months_as_customer:
-        var_name: months_as_customer_groups
-        bins:
-        -   0
-        -   50
-        -   100
-        -   150
-        -   200
-        -   250
-        -   300
-        -   350
-        -   400
-        -   450
-        -   500
-        bins_labels:
-        -   0-50
-        -   51-100
-        -   101-150
-        -   151-200
-        -   201-250
+        -   56-60
+        -   15-20
+        months_as_customer_groups:
         -   251-300
-        -   301-350
+        -   101-150
+        -   201-250
         -   351-400
+        -   151-200
+        -   0-50
         -   401-450
+        -   51-100
+        -   301-350
         -   451-500
-dummies_meta:
-    insured_sex:
-    -   MALE
-    -   FEMALE
-    insured_hobbies:
-    -   others
-    -   chess
-    -   cross-fit
-    incident_type:
-    -   Single Vehicle Collision
-    -   Vehicle Theft
-    -   Multi-vehicle Collision
-    -   Parked Car
-    collision_type:
-    -   Side Collision
-    -   missing
-    -   Rear Collision
-    -   Front Collision
-    authorities_contacted:
-    -   Police
-    -   None
-    -   Fire
-    -   Other
-    -   Ambulance
-    property_damage:
-    -   YES
-    -   missing
-    -   NO
-    police_report_available:
-    -   YES
-    -   missing
-    -   NO
-    age_groups:
-    -   46-50
-    -   41-45
-    -   26-30
-    -   36-40
-    -   31-35
-    -   61-65
-    -   21-25
-    -   56-60
-    -   51-55
-    -   15-20
-    months_as_customer_groups:
-    -   301-350
-    -   201-250
-    -   101-150
-    -   251-300
-    -   151-200
-    -   0-50
-    -   451-500
-    -   51-100
-    -   351-400
-    -   401-450
-encoding_meta:
-    fraud_reported:
-        N: 0
-        Y: 1
-    insured_hobbies:
-        sleeping: others
-        reading: others
-        board-games: others
-        bungie-jumping: others
-        base-jumping: others
-        golf: others
-        camping: others
-        dancing: others
-        skydiving: others
-        movies: others
-        hiking: others
-        yachting: others
-        paintball: others
-        chess: chess
-        kayaking: others
-        polo: others
-        basketball: others
-        video-games: others
-        cross-fit: cross-fit
-        exercise: others
-    incident_severity:
-        Trivial Damage: 0
-        Minor Damage: 1
-        Major Damage: 2
-        Total Loss: 3
-    policy_annual_premium_groups:
-        very low: 0
-        low: 1
-        medium: 2
-        high: 3
-        very high: 4
-    policy_deductable_groups:
-        0-500: 0
-        501-1000: 1
-        1501-2000: 2
+    features:
+    -   umbrella_limit
+    -   capital_gains
+    -   capital_loss
+    -   incident_severity
+    -   incident_hour_of_the_day
+    -   number_of_vehicles_involved
+    -   bodily_injuries
+    -   witnesses
+    -   total_claim_amount
+    -   policy_deductable_groups
+    -   policy_annual_premium_groups
+    -   insured_sex_FEMALE
+    -   insured_sex_MALE
+    -   insured_hobbies_chess
+    -   insured_hobbies_cross-fit
+    -   insured_hobbies_others
+    -   incident_type_Multi-vehicle Collision
+    -   incident_type_Parked Car
+    -   incident_type_Single Vehicle Collision
+    -   incident_type_Vehicle Theft
+    -   collision_type_Front Collision
+    -   collision_type_Rear Collision
+    -   collision_type_Side Collision
+    -   collision_type_missing
+    -   authorities_contacted_Ambulance
+    -   authorities_contacted_Fire
+    -   authorities_contacted_None
+    -   authorities_contacted_Other
+    -   authorities_contacted_Police
+    -   property_damage_NO
+    -   property_damage_YES
+    -   property_damage_missing
+    -   police_report_available_NO
+    -   police_report_available_YES
+    -   police_report_available_missing
+    -   age_groups_15-20
+    -   age_groups_21-25
+    -   age_groups_26-30
+    -   age_groups_31-35
+    -   age_groups_36-40
+    -   age_groups_41-45
+    -   age_groups_46-50
+    -   age_groups_51-55
+    -   age_groups_56-60
+    -   age_groups_61-65
+    -   months_as_customer_groups_0-50
+    -   months_as_customer_groups_51-100
+    -   months_as_customer_groups_101-150
+    -   months_as_customer_groups_151-200
+    -   months_as_customer_groups_201-250
+    -   months_as_customer_groups_251-300
+    -   months_as_customer_groups_301-350
+    -   months_as_customer_groups_351-400
+    -   months_as_customer_groups_401-450
+    -   months_as_customer_groups_451-500
+    features_selected:
+    -   bodily_injuries
+    -   capital_gains
+    -   capital_loss
+    -   incident_hour_of_the_day
+    -   incident_severity
+    -   insured_hobbies_chess
+    -   insured_hobbies_cross-fit
+    -   insured_hobbies_others
+    -   policy_annual_premium_groups
+    -   policy_deductable_groups
+    -   total_claim_amount
+    -   umbrella_limit
+    -   witnesses
+    random_sample_smote: 9
+model_training:
+    RandomForestClassifier:
+        model_path: tofill
+        max_depth: 25
+        min_samples_split: 5
+        n_estimators: 300
+        random_state: 8

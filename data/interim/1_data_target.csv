@@ -289,7 +289,6 @@ months_as_customer,age,policy_deductable,policy_annual_premium,umbrella_limit,in
 219,40,500,1134.91,0,FEMALE,golf,68700,0,Vehicle Theft,missing,Trivial Damage,None,6,1,missing,1,0,NO,6400,0
 88,25,1000,1194.0,0,FEMALE,movies,0,0,Single Vehicle Collision,Rear Collision,Major Damage,Ambulance,6,1,YES,1,2,YES,66780,1
 40,39,1000,1248.25,4000000,FEMALE,hiking,0,-33300,Parked Car,missing,Minor Damage,Police,8,1,NO,0,2,missing,8760,0
-284,42,500,1338.54,-1000000,MALE,kayaking,0,0,Single Vehicle Collision,Side Collision,Major Damage,Ambulance,13,1,YES,0,1,missing,94160,0
 59,40,2000,782.23,0,MALE,golf,64200,-32300,Multi-vehicle Collision,Front Collision,Total Loss,Ambulance,0,3,missing,0,2,NO,51570,0
 39,31,2000,1366.9,0,FEMALE,polo,0,-15700,Multi-vehicle Collision,Rear Collision,Major Damage,Fire,14,3,missing,1,0,NO,52700,1
 147,34,1000,1275.81,0,MALE,dancing,0,-48300,Single Vehicle Collision,Side Collision,Minor Damage,Fire,13,1,YES,2,2,missing,101010,0
