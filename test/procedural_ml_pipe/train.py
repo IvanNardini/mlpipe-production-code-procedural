@@ -60,14 +60,15 @@ def train(data, config):
     X_train = dumminizer(X_train, 
                          config['features_engineering']['nominal_predictors'])
     ## Scale variables
-    scaler = scaler_trainer(X_train, 
-                            config['features_engineering']['scaler_path'])
+    scaler = scaler_trainer(X_train[config['features_engineering']['features']], 
+                           config['features_engineering']['scaler_path'])
 
-    X_train = scaler_transformer(X_train, 
-                                 config['features_engineering']['scaler_path'])
+    X_train = scaler_transformer(X_train[config['features_engineering']['features']], 
+                                config['features_engineering']['scaler_path'])
     
     #Select features
-    X_train = feature_selector(X_train, config['features_engineering']['features_selected'])
+    X_train = feature_selector(X_train, 
+                               config['features_engineering']['features_selected'])
     
     #Balancing sample
     X_train, y_train = balancer(X_train, y_train, 
