@@ -48,7 +48,7 @@ def renamer(data, columns_to_rename):
     :params: data, columns_to_rename
     :return: DataFrame
     '''
-    data.rename(columns=rename, inplace=True)
+    data.rename(columns=columns_to_rename, inplace=True)
     return data
 
 def anomalizier(data, anomaly_var):
