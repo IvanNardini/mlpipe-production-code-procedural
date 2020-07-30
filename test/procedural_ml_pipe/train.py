@@ -27,13 +27,17 @@ def train():
     data = loader(config['data_ingestion']['data_path'])
 
     logging.info('Processing data...')
+    ## Drop columns
     data = dropper(data, config['preprocessing']['dropped_columns'])
+    ## Rename columns 
     data = renamer(data, config['preprocessing']['renamed_columns'])
+    ## Remove anomalies
     data = anomalizier(data, 'umbrella_limit')
+    ## Impute missing
     data = missing_imputer(data, 
                            config['preprocessing']['missing_predictors'], 
                            replace='missing')
-
+    ## Split data
     X_train, X_test, y_train, y_test = data_splitter(data,
                                                      config['data_ingestion']['data_map']['target'],
                                                      config['data_ingestion']['data_map']['predictors'],
@@ -41,35 +45,23 @@ def train():
                                                      config['preprocessing']['train_test_split_params']['random_state'])
     # Features Engineering
     logging.info('Engineering features...')
-
+    ## Encode target
     y_train = target_encoder(y_train, config['features_engineering']['target_encoding'])
-
+    ## Create bins
     for var, meta in config['features_engineering']['binning_meta'].items():
         binning_meta = meta
         X_train[binning_meta['var_name']] = binner(X_train, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
-
-    #Encoding variables
+    ## Encode variables
     for var, meta in config['features_engineering']['encoding_meta'].items():
         X_train[var] = encoder(X_train, var, meta)
-    
-    #Create Dummies
-    data = dumminizer(data, config['features_engineering']['nominal_predictors'])
+    ## Create Dummies
+    X_train = dumminizer(X_train, config['features_engineering']['nominal_predictors'])
+    ## Scale variables
+    scaler = scaler_trainer(X_train, config['features_engineering']['scaler_path'])
+    X_train = scaler_transformer(X_train, config['features_engineering']['scaler_path'])
+    #Balancing sample
+    X, y = balancer(X_train, y_train, config['features_engineering']['random_sample_smote'])
 
-    print(data.columns())
-
-    # #Scaling data
-    # logging.info('Scaling Features...')
-    # scaler = scaler_trainer(data[config['features']], config['paths']['scaler_path'])
-    # data[config['features']] = scaler_trasformer(data[config['features']], config['paths']['scaler_path'])
-
-    # #Balancing sample
-    # logging.info('Oversampling with SMOTE...')
-    # X, y = balancer(data, config['features_selected'], config['target'])
-
-    # #Split and scale data
-    # logging.info('Splitting Data for Training...')
-    # X_train, X_test, y_train, y_test = data_splitter(X, y)
-    
     # #Train the model
     # logging.info('Training Model...')
     # model_trainer(X_train, y_train, config['paths']['model_path'])

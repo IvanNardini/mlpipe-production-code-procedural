@@ -140,7 +140,7 @@ def scaler_trainer(data, output_path):
     joblib.dump(scaler, output_path)
     return scaler
   
-def scaler_trasformer(data, scaler):
+def scaler_transformer(data, scaler):
     '''
     Trasform the data 
     :params: data, scaler
@@ -149,15 +149,24 @@ def scaler_trasformer(data, scaler):
     scaler = joblib.load(scaler) 
     return scaler.transform(data)
 
-# def balancer(data, features_selected, target):
-#     '''
-#     Balance data with SMOTE
-#     :params: data
-#     : X, y
-#     '''
-#     smote = SMOTE(random_state=9)
-#     X, y = smote.fit_resample(data[features_selected], data[target])
-#     return X,y
+def feature_selector(data, features_selected):
+    '''
+    Select features
+    :params: data, features_selected
+    :return: DataFrame
+    '''
+    data = data[features_selected]
+    return data
+
+def balancer(data, target, random_state):
+    '''
+    Balance data with SMOTE
+    :params: data
+    : X, y
+    '''
+    smote = SMOTE(random_state=random_state)
+    X, y = smote.fit_resample(data, target)
+    return X,y
 
 
 
