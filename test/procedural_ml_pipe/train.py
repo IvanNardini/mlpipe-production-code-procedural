@@ -25,17 +25,16 @@ def train():
     # Preprocessing
     logging.info('Loading data...')
     data = loader(config['data_ingestion']['data_path'])
+
     logging.info('Processing data...')
     data = dropper(data, config['preprocessing']['dropped_columns'])
     data = renamer(data, config['preprocessing']['renamed_columns'])
     data = anomalizier(data, 'umbrella_limit')
-    
+    data = missing_imputer(data, 
+                           config['preprocessing']['missing_predictors'], 
+                           replace='missing')
 
-
-    # #Impute missing
-    # logging.info('Imputing Missings...')
-    # for var in config['missing_predictors']:
-    #     data[var] = missing_imputer(data, var, replace='missing')
+                           
     
     # #Binning variables
     # logging.info('Binning Variables...')

@@ -60,15 +60,13 @@ def anomalizier(data, anomaly_var):
     flt = data[anomaly_var] >=0
     return data[flt]
 
-
-
-# def missing_imputer(data, var, replace='missing'):
-#     '''
-#     Imputes '?' character with 'missing' label
-#     :params: data, var, replace
-#     :return: Series
-#     '''
-#     return data[var].replace('?', replace)
+def missing_imputer(data, columns_to_impute, replace='missing'):
+    '''
+    Imputes '?' character with 'missing' label
+    :params: data, var, replace
+    :return: Series
+    '''
+    return data[columns_to_impute].replace('?', replace)
 
 # def binner(data, var, new_var_name, bins, bins_labels):
 #     data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels, include_lowest= True)
