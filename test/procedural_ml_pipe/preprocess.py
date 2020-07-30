@@ -57,7 +57,7 @@ def anomalizier(data, anomaly_var):
     :params: data, anomaly_var
     :return: DataFrame
     '''
-    flt = data[anomaly_var] >=0
+    flt = data[anomaly_var]>=0
     return data[flt]
 
 def missing_imputer(data, columns_to_impute, replace='missing'):
@@ -66,7 +66,8 @@ def missing_imputer(data, columns_to_impute, replace='missing'):
     :params: data, var, replace
     :return: Series
     '''
-    return data[columns_to_impute].replace('?', replace)
+    data[columns_to_impute] = data[columns_to_impute].replace('?', replace)
+    return data
 
 def data_splitter(data, target, predictors, test_size, random_state):
     '''
