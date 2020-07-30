@@ -36,8 +36,8 @@ def train():
     X_train, X_test, y_train, y_test = data_splitter(data,
                                                      config['data_ingestion']['data_map']['target'],
                                                      config['data_ingestion']['data_map']['predictors'],
-                                                     config['train_test_split_params']['test_size'],
-                                                     config['train_test_split_params']['random_state'])
+                                                     config['preprocessing']['train_test_split_params']['test_size'],
+                                                     config['preprocessing']['train_test_split_params']['random_state'])
     # Features Engineering
     logging.info('Engineering features...')
 
