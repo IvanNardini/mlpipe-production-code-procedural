@@ -16,17 +16,13 @@ warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 # Training model#
 #################
 
-def train():
+def train(data, config):
 
-    # Read configuration
-    stream = open('config.yaml', 'r')
-    config = yaml.load(stream)
-
+    data = data.copy()
+    
     # Preprocessing
-    logging.info('Loading data...')
-    data = loader(config['data_ingestion']['data_path'])
-
     logging.info('Processing data...')
+
     ## Drop columns
     data = dropper(data, config['preprocessing']['dropped_columns'])
     ## Rename columns 
@@ -39,12 +35,14 @@ def train():
                            replace='missing')
     ## Split data
     X_train, X_test, y_train, y_test = data_splitter(data,
-                                                     config['data_ingestion']['data_map']['target'],
-                                                     config['data_ingestion']['data_map']['predictors'],
-                                                     config['preprocessing']['train_test_split_params']['test_size'],
-                                                     config['preprocessing']['train_test_split_params']['random_state'])
+                        config['data_ingestion']['data_map']['target'],
+                        config['data_ingestion']['data_map']['predictors'],
+                        config['preprocessing']['train_test_split_params']['test_size'],
+                        config['preprocessing']['train_test_split_params']['random_state'])
+    
     # Features Engineering
     logging.info('Engineering features...')
+
     ## Encode target
     y_train = target_encoder(y_train, 
                              config['features_engineering']['target_encoding'])
@@ -67,6 +65,10 @@ def train():
 
     X_train = scaler_transformer(X_train, 
                                  config['features_engineering']['scaler_path'])
+    
+    #Select features
+    X_train = feature_selector(X_train, config['features_engineering']['features_selected'])
+    
     #Balancing sample
     X_train, y_train = balancer(X_train, y_train, 
                                 config['features_engineering']['random_sample_smote'])
@@ -86,6 +88,14 @@ if __name__ == '__main__':
     import logging
     from collections import Counter
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+
+    # Read configuration
+    stream = open('config.yaml', 'r')
+    config = yaml.load(stream)
+
+    logging.info('Loading data...')
+    data = loader(config['data_ingestion']['data_path'])
+
     logging.info('Training process started!')
-    train()
+    train(data, config)
     logging.info('Training finished!')
