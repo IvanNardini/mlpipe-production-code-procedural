@@ -406,8 +406,8 @@ features_engineering:
     random_sample_smote: 9
 model_training:
     RandomForestClassifier:
-        model_path: tofill
         max_depth: 25
         min_samples_split: 5
         n_estimators: 300
         random_state: 8
+    model_path: './rf_champion.onnx'

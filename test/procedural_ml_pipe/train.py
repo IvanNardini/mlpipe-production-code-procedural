@@ -46,25 +46,40 @@ def train():
     # Features Engineering
     logging.info('Engineering features...')
     ## Encode target
-    y_train = target_encoder(y_train, config['features_engineering']['target_encoding'])
+    y_train = target_encoder(y_train, 
+                             config['features_engineering']['target_encoding'])
     ## Create bins
     for var, meta in config['features_engineering']['binning_meta'].items():
         binning_meta = meta
-        X_train[binning_meta['var_name']] = binner(X_train, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+        X_train[binning_meta['var_name']] = binner(X_train, var, 
+                                                   binning_meta['var_name'], 
+                                                   binning_meta['bins'], 
+                                                   binning_meta['bins_labels'])
     ## Encode variables
     for var, meta in config['features_engineering']['encoding_meta'].items():
         X_train[var] = encoder(X_train, var, meta)
     ## Create Dummies
-    X_train = dumminizer(X_train, config['features_engineering']['nominal_predictors'])
+    X_train = dumminizer(X_train, 
+                         config['features_engineering']['nominal_predictors'])
     ## Scale variables
-    scaler = scaler_trainer(X_train, config['features_engineering']['scaler_path'])
-    X_train = scaler_transformer(X_train, config['features_engineering']['scaler_path'])
+    scaler = scaler_trainer(X_train, 
+                            config['features_engineering']['scaler_path'])
+                            
+    X_train = scaler_transformer(X_train, 
+                                 config['features_engineering']['scaler_path'])
     #Balancing sample
-    X, y = balancer(X_train, y_train, config['features_engineering']['random_sample_smote'])
+    X_train, y_train = balancer(X_train, y_train, 
+                                config['features_engineering']['random_sample_smote'])
 
-    # #Train the model
-    # logging.info('Training Model...')
-    # model_trainer(X_train, y_train, config['paths']['model_path'])
+    #Train the model
+    logging.info('Training Model...')
+    model_trainer(X_train,
+                  y_train,
+                  config['model_training']['max_depth'],
+                  config['model_training']['min_samples_split'],
+                  config['model_training']['n_estimators'],
+                  config['model_training']['random_state'],
+                  config['paths']['model_path'])
 
 if __name__ == '__main__':
 
