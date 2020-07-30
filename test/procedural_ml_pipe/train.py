@@ -22,11 +22,15 @@ def train():
     stream = open('config.yaml', 'r')
     config = yaml.load(stream)
 
-    #Load and prepare data
+    # Preprocessing
     logging.info('Loading data...')
-    data = data_loader(config['data_ingestion']['data_path'])
-    # logging.info('Preparing data...')
-    # data = data_preparer(data, config['dropped_columns'])
+    data = loader(config['data_ingestion']['data_path'])
+    logging.info('Processing data...')
+    data = dropper(data, config['preprocessing']['dropped_columns'])
+    data = renamer(data, config['preprocessing']['renamed_columns'])
+    data = anomalizier(data, 'umbrella_limit')
+    
+
 
     # #Impute missing
     # logging.info('Imputing Missings...')

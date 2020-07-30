@@ -1,13 +1,28 @@
-FROM python:3.6-slim
+FROM ubuntu:18.04
 
-MAINTAINER ivan.nardini@sas.com
+MAINTAINER  Ivan Nardini "ivan.nardini@sas.com"
 
-COPY . /test
+RUN apt-get update && \
+	apt-get install -y sudo \
+	build-essential curl \
+	libcurl4-openssl-dev \
+	libssl-dev wget \
+	python3-pip \
+	git \
+	ruamel.yaml \
+	graphviz && \
+	pip3 install --upgrade pip
 
-WORKDIR /test
+COPY requirements.txt requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install -r requirements.txt
 
-RUN ["pytest", "-v", "--junitxml=reports/result.xml"]
+WORKDIR /usr/src
 
-CMD tail -f /dev/null
+COPY . . 
+
+RUN chmod +x ./run.sh
+
+# "/bin/bash", "./run.sh", "train", "score"
+
+CMD ["/bin/bash", "./run.sh", "test"]
