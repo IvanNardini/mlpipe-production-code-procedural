@@ -47,7 +47,7 @@ def score(data, config):
     ## Scale variables
     data[config['features_engineering']['features']] = scaler_transformer(
                            data[config['features_engineering']['features']], 
-                           data[config['features_engineering']['scaler_path']])
+                           config['features_engineering']['scaler_path'])
     #Select features
     data = feature_selector(data, 
                                config['features_engineering']['features_selected'])

@@ -128,25 +128,25 @@ def dumminizer(data, columns_to_dummies):
     data = pd.get_dummies(data, columns=columns_to_dummies)
     return data
 
-def scaler_trainer(data, output_path):
+def scaler_trainer(data, scaler_path):
     '''
     Fit the scaler on predictors
-    :params: data, output_path
+    :params: data, scaler_path
     :return: scaler
     '''
     
     scaler = MinMaxScaler()
     scaler.fit(data)
-    joblib.dump(scaler, output_path)
+    joblib.dump(scaler, scaler_path)
     return scaler
   
-def scaler_transformer(data, scaler):
+def scaler_transformer(data, scaler_path):
     '''
     Trasform the data 
     :params: data, scaler
     :return: DataFrame
     ''' 
-    scaler = joblib.load(scaler)
+    scaler = joblib.load(scaler_path)
     return scaler.transform(data)
 
 def feature_selector(data, features_selected):
