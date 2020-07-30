@@ -42,6 +42,27 @@ data_ingestion:
         -   auto_model
         -   auto_year
         -   _c39
+        predictors:
+        -   months_as_customer
+        -   age
+        -   policy_deductable
+        -   policy_annual_premium
+        -   umbrella_limit
+        -   insured_sex
+        -   insured_hobbies
+        -   capital_gains
+        -   capital_loss
+        -   incident_type
+        -   collision_type
+        -   incident_severity
+        -   authorities_contacted
+        -   incident_hour_of_the_day
+        -   number_of_vehicles_involved
+        -   property_damage
+        -   bodily_injuries
+        -   witnesses
+        -   police_report_available
+        -   total_claim_amount
 preprocessing:
     dropped_columns:
     -   policy_number
@@ -74,37 +95,15 @@ preprocessing:
         test_size: 0.1
         random_state: 1
 features_engineering:
-    predictors:
-    -   months_as_customer
-    -   age
-    -   policy_deductable
-    -   policy_annual_premium
-    -   umbrella_limit
-    -   insured_sex
-    -   insured_hobbies
-    -   capital_gains
-    -   capital_loss
-    -   incident_type
-    -   collision_type
-    -   incident_severity
-    -   authorities_contacted
-    -   incident_hour_of_the_day
-    -   number_of_vehicles_involved
-    -   property_damage
-    -   bodily_injuries
-    -   witnesses
-    -   police_report_available
-    -   total_claim_amount
+    target_encoding:
+        N: 0
+        Y: 1
     encode_variables:
-    -   fraud_reported
     -   insured_hobbies
     -   incident_severity
     -   policy_annual_premium_groups
     -   policy_deductable_groups
     encoding_meta:
-        fraud_reported:
-            N: 0
-            Y: 1
         insured_hobbies:
             sleeping: others
             bungie-jumping: others

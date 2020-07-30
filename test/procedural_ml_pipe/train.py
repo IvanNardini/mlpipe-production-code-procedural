@@ -33,14 +33,20 @@ def train():
     data = missing_imputer(data, 
                            config['preprocessing']['missing_predictors'], 
                            replace='missing')
+    X_train, X_test, y_train, y_test = data_splitter(data,
+                                                     config['datamap']['target'],
+                                                     config['datamap']['predictors'],
+                                                     config['train_test_split_params']['test_size'],
+                                                     config['train_test_split_params']['random_state'])
+    # Features Engineering
+    logging.info('Engineering features...')
 
-                           
-    
-    # #Binning variables
-    # logging.info('Binning Variables...')
-    # for var, meta in config['binning_meta'].items():
-    #     binning_meta = meta
-    #     data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
+    y_train = target_encoder(y_train, config['features_engineering']['target_encoding'])
+    y_test = target_encoder(y_test, config['features_engineering']['target_encoding'])
+
+    for var, meta in config['features_engineering']['binning_meta'].items():
+        binning_meta = meta
+        data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
     
     # #Encoding variables
     # logging.info('Encoding Variables...')

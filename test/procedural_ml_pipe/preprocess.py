@@ -68,10 +68,32 @@ def missing_imputer(data, columns_to_impute, replace='missing'):
     '''
     return data[columns_to_impute].replace('?', replace)
 
-# def binner(data, var, new_var_name, bins, bins_labels):
-#     data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels, include_lowest= True)
-#     data.drop(var, axis=1, inplace=True)
-#     return data[new_var_name]
+def data_splitter(data, target, predictors, test_size, random_state):
+    '''
+    Split data in train and test samples
+    :params: data, target, predictors, test_size, random_state
+    :return: X_train, X_test, y_train, y_test
+    '''
+    
+    X_train, X_test, y_train, y_test = train_test_split(data[predictors],
+                                                        data[target],
+                                                        test_size=test_size,
+                                                        random_state=random_state)
+    return X_train, X_test, y_train, y_test
+
+def target_encoder(target, labels_dic):
+    '''
+    Encode target
+    :params: target, labels_dic
+    :return: target_encoded
+    '''
+    target_encoded = target.map(labels_dic).astype('category')
+    return target_encoded
+
+def binner(data, var, new_var_name, bins, bins_labels):
+    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels, include_lowest = True)
+    data.drop(var, axis=1, inplace=True)
+    return data[new_var_name]
 
 # def encoder(data, var, mapping):
 #     '''
@@ -131,19 +153,6 @@ def missing_imputer(data, columns_to_impute, replace='missing'):
 #     smote = SMOTE(random_state=9)
 #     X, y = smote.fit_resample(data[features_selected], data[target])
 #     return X,y
-
-# def data_splitter(X, y):
-#     '''
-#     Split data in train and test samples
-#     :params: X, y
-#     :return: X_train, X_test, y_train, y_test
-#     '''
-    
-#     X_train, X_test, y_train, y_test = train_test_split(X,
-#                                                         y,
-#                                                         test_size=0.1,
-#                                                         random_state=0)
-#     return X_train, X_test, y_train, y_test
 
 
 
