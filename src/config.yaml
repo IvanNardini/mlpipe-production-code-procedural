@@ -71,7 +71,7 @@ preprocessing:
     -   property_damage
     -   police_report_available
     train_test_split_params:
-        test_size: 0.2
+        test_size: 0.1
         random_state: 1
 features_engineering:
     predictors:
@@ -106,26 +106,26 @@ features_engineering:
             N: 0
             Y: 1
         insured_hobbies:
-            chess: chess
-            paintball: others
-            cross-fit: cross-fit
-            kayaking: others
-            hiking: others
-            polo: others
-            camping: others
-            movies: others
             sleeping: others
-            exercise: others
-            basketball: others
-            base-jumping: others
-            dancing: others
-            yachting: others
-            skydiving: others
-            reading: others
-            golf: others
-            board-games: others
-            video-games: others
             bungie-jumping: others
+            chess: chess
+            exercise: others
+            kayaking: others
+            video-games: others
+            hiking: others
+            golf: others
+            movies: others
+            cross-fit: cross-fit
+            board-games: others
+            base-jumping: others
+            basketball: others
+            skydiving: others
+            yachting: others
+            paintball: others
+            polo: others
+            reading: others
+            dancing: others
+            camping: others
         incident_severity:
             Trivial Damage: 0
             Minor Damage: 1
@@ -231,11 +231,16 @@ features_engineering:
             var_name: months_as_customer_groups
             bins:
             -   0
+            -   50
+            -   100
+            -   150
+            -   200
+            -   250
+            -   300
+            -   350
+            -   400
+            -   450
             -   500
-            -   1000
-            -   1500
-            -   2000
-            -   2500
             bins_labels:
             -   0-50
             -   51-100
@@ -279,55 +284,55 @@ features_engineering:
         -   MALE
         -   FEMALE
         insured_hobbies:
-        -   chess
         -   others
+        -   chess
         -   cross-fit
         incident_type:
-        -   Single Vehicle Collision
         -   Multi-vehicle Collision
-        -   Vehicle Theft
         -   Parked Car
+        -   Single Vehicle Collision
+        -   Vehicle Theft
         collision_type:
-        -   Rear Collision
         -   Side Collision
-        -   Front Collision
         -   missing
+        -   Rear Collision
+        -   Front Collision
         authorities_contacted:
-        -   Ambulance
         -   Fire
+        -   None
+        -   Ambulance
         -   Police
         -   Other
-        -   None
         property_damage:
-        -   YES
         -   NO
+        -   YES
         -   missing
         police_report_available:
+        -   NO
         -   YES
         -   missing
-        -   NO
         age_groups:
-        -   46-50
+        -   36-40
         -   31-35
         -   41-45
-        -   26-30
-        -   36-40
-        -   51-55
-        -   21-25
         -   61-65
         -   56-60
+        -   26-30
+        -   46-50
+        -   51-55
+        -   21-25
         -   15-20
         months_as_customer_groups:
-        -   251-300
-        -   101-150
-        -   201-250
-        -   351-400
         -   151-200
+        -   101-150
+        -   251-300
+        -   451-500
         -   0-50
-        -   401-450
+        -   201-250
         -   51-100
         -   301-350
-        -   451-500
+        -   401-450
+        -   351-400
     features:
     -   umbrella_limit
     -   capital_gains
