@@ -25,4 +25,4 @@ RUN chmod +x ./run.sh
 
 # "/bin/bash", "./run.sh", "train", "score"
 
-CMD ["/bin/bash", "./run.sh", "test"]
+CMD ["/bin/bash", "./run.sh", "train"]
