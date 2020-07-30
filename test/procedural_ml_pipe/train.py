@@ -64,7 +64,7 @@ def train():
     ## Scale variables
     scaler = scaler_trainer(X_train, 
                             config['features_engineering']['scaler_path'])
-                            
+
     X_train = scaler_transformer(X_train, 
                                  config['features_engineering']['scaler_path'])
     #Balancing sample
@@ -75,10 +75,10 @@ def train():
     logging.info('Training Model...')
     model_trainer(X_train,
                   y_train,
-                  config['model_training']['max_depth'],
-                  config['model_training']['min_samples_split'],
-                  config['model_training']['n_estimators'],
-                  config['model_training']['random_state'],
+                  config['model_training']['RandomForestClassifier']['max_depth'],
+                  config['model_training']['RandomForestClassifier']['min_samples_split'],
+                  config['model_training']['RandomForestClassifier']['n_estimators'],
+                  config['model_training']['RandomForestClassifier']['random_state'],
                   config['paths']['model_path'])
 
 if __name__ == '__main__':
