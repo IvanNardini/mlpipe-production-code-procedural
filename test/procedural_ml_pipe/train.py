@@ -48,14 +48,14 @@ def train():
         binning_meta = meta
         X_train[binning_meta['var_name']] = binner(X_train, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
 
-    # #Encoding variables
-    # logging.info('Encoding Variables...')
-    # for var, meta in config['encoding_meta'].items():
-    #     data[var] = encoder(data, var, meta)
+    #Encoding variables
+    for var, meta in config['features_engineering']['encoding_meta'].items():
+        X_train[var] = encoder(X_train, var, meta)
     
-    # #Create Dummies
-    # logging.info('Generating Dummies...')
-    # data = dumminizer(data, config['nominal_predictors'], config['dummies_meta'])
+    #Create Dummies
+    data = dumminizer(data, config['features_engineering']['nominal_predictors'])
+
+    print(data.columns())
 
     # #Scaling data
     # logging.info('Scaling Features...')

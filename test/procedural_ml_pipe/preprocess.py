@@ -96,15 +96,15 @@ def binner(data, var, new_var_name, bins, bins_labels):
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
 
-# def encoder(data, var, mapping):
-#     '''
-#     Encode all variables for training
-#     :params: data, var, mapping
-#     :return: DataFrame
-#     '''
-#     if var not in data.columns.values.tolist():
-#         pass
-#     return data[var].map(mapping)
+def encoder(data, var, mapping):
+    '''
+    Encode all variables for training
+    :params: data, var, mapping
+    :return: DataFrame
+    '''
+    if var not in data.columns.values.tolist():
+        pass
+    return data[var].map(mapping)
 
 # def dumminizer(data, columns_to_dummies, dummies_meta):
 #     '''
@@ -123,27 +123,31 @@ def binner(data, var, new_var_name, bins, bins_labels):
 #                 data[cat] = 0 
 #         data = data.drop(var, 1)
 #     return data
+
+def dumminizer(data, columns_to_dummies):
+    data = pd.get_dummies(data, columns=columns_to_dummies)
+    return data
+
+def scaler_trainer(data, output_path):
+    '''
+    Fit the scaler on predictors
+    :params: data, output_path
+    :return: scaler
+    '''
     
-# def scaler_trainer(data, output_path):
-#     '''
-#     Fit the scaler on predictors
-#     :params: data, output_path
-#     :return: scaler
-#     '''
-    
-#     scaler = MinMaxScaler()
-#     scaler.fit(data)
-#     joblib.dump(scaler, output_path)
-#     return scaler
+    scaler = MinMaxScaler()
+    scaler.fit(data)
+    joblib.dump(scaler, output_path)
+    return scaler
   
-# def scaler_trasformer(data, scaler):
-#     '''
-#     Trasform the data 
-#     :params: data, scaler
-#     :return: DataFrame
-#     '''
-#     scaler = joblib.load(scaler) 
-#     return scaler.transform(data)
+def scaler_trasformer(data, scaler):
+    '''
+    Trasform the data 
+    :params: data, scaler
+    :return: DataFrame
+    '''
+    scaler = joblib.load(scaler) 
+    return scaler.transform(data)
 
 # def balancer(data, features_selected, target):
 #     '''
