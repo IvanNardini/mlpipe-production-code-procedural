@@ -34,8 +34,8 @@ def train():
                            config['preprocessing']['missing_predictors'], 
                            replace='missing')
     X_train, X_test, y_train, y_test = data_splitter(data,
-                                                     config['data_ingestion']['datamap']['target'],
-                                                     config['data_ingestion']['datamap']['predictors'],
+                                                     config['data_ingestion']['data_map']['target'],
+                                                     config['data_ingestion']['data_map']['predictors'],
                                                      config['train_test_split_params']['test_size'],
                                                      config['train_test_split_params']['random_state'])
     # Features Engineering
