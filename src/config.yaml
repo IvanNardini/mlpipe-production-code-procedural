@@ -1,5 +1,5 @@
 data_ingestion:
-    data_path: tofill
+    data_path: './insurance_claims.csv'
     data_map:
         target: fraud_reported
         variables:
@@ -403,6 +403,7 @@ features_engineering:
     -   total_claim_amount
     -   umbrella_limit
     -   witnesses
+    scaler_path: './scaler.pkl'
     random_sample_smote: 9
 model_training:
     RandomForestClassifier:

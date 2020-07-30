@@ -9,3 +9,5 @@ https://appfleet.com/blog/github-actions-how-to-improve-your-ci-cd-workflow/
 
 https://fireship.io/lessons/five-useful-github-actions-examples/
 https://github.com/JavierZolotarchuk/parameterizable-docker-action-example
+
+https://packaging.python.org/tutorials/packaging-projects/
