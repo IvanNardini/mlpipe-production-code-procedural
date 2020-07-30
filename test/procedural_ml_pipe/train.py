@@ -79,7 +79,7 @@ def train():
                   config['model_training']['RandomForestClassifier']['min_samples_split'],
                   config['model_training']['RandomForestClassifier']['n_estimators'],
                   config['model_training']['RandomForestClassifier']['random_state'],
-                  config['paths']['model_path'])
+                  config['model_training']['model_path'])
 
 if __name__ == '__main__':
 
