@@ -45,13 +45,12 @@ def score(data, config):
     data = dumminizer(data, 
                       config['features_engineering']['nominal_predictors'])
     ## Scale variables
-
-    data = scaler_transformer(data, 
-                              config['features_engineering']['scaler_path'])
+    data[config['features_engineering']['features']] = scaler_transformer(
+                           data[config['features_engineering']['features']], 
+                           scaler)
     
-     
     #Select features
-    data = feature_selector(data,
+    data = feature_selector(data, 
                                config['features_engineering']['features_selected'])
 
     #Score data
@@ -80,12 +79,12 @@ if __name__ == '__main__':
 
     X_train, X_test, y_train, y_test = data_splitter(data,
                         config['data_ingestion']['data_map']['target'],
-                        config['data_ingestion']['data_map']['predictors'],
+                        config['data_ingestion']['data_map']['variables'],
                         config['preprocessing']['train_test_split_params']['test_size'],
                         config['preprocessing']['train_test_split_params']['random_state'])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    prediction = score(X_test)
+    prediction = score(X_test, config)
     logging.info('Scoring finished!')
     logging.info('The prediction label is {}'.format(prediction))

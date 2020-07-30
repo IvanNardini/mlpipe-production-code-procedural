@@ -145,8 +145,8 @@ def scaler_transformer(data, scaler):
     Trasform the data 
     :params: data, scaler
     :return: DataFrame
-    '''
-    scaler = joblib.load(scaler) 
+    ''' 
+    scaler = joblib.load(scaler)
     return scaler.transform(data)
 
 def feature_selector(data, features_selected):

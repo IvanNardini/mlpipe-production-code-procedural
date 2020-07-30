@@ -46,6 +46,7 @@ def train(data, config):
     ## Encode target
     y_train = target_encoder(y_train, 
                              config['features_engineering']['target_encoding'])
+
     ## Create bins
     for var, meta in config['features_engineering']['binning_meta'].items():
         binning_meta = meta
@@ -53,9 +54,11 @@ def train(data, config):
                                                    binning_meta['var_name'], 
                                                    binning_meta['bins'], 
                                                    binning_meta['bins_labels'])
+
     ## Encode variables
     for var, meta in config['features_engineering']['encoding_meta'].items():
         X_train[var] = encoder(X_train, var, meta)
+
     ## Create Dummies
     X_train = dumminizer(X_train, 
                          config['features_engineering']['nominal_predictors'])
@@ -63,8 +66,9 @@ def train(data, config):
     scaler = scaler_trainer(X_train[config['features_engineering']['features']], 
                            config['features_engineering']['scaler_path'])
 
-    X_train = scaler_transformer(X_train[config['features_engineering']['features']], 
-                                config['features_engineering']['scaler_path'])
+    X_train[config['features_engineering']['features']] = scaler.transform(
+                           X_train[config['features_engineering']['features']], 
+                           )
     
     #Select features
     X_train = feature_selector(X_train, 
