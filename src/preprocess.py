@@ -25,7 +25,7 @@ import warnings
 warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 
 # Preprocessing functions
-def data_loader(datapath):
+def loader(datapath):
     '''
     Load the data for training
     :params: datapath
@@ -33,27 +33,66 @@ def data_loader(datapath):
     '''
     return pd.read_csv(datapath)
 
-def data_preparer(data, columns_to_drop):
+def dropper(data, columns_to_drop):
     '''
-    Drop and Rename columns
+    Drop columns
     :params: data, columns_to_drop
     :return: DataFrame
     '''
     data.drop(columns_to_drop, axis=1, inplace=True)
-    data.rename(columns={"capital-gains": "capital_gains", 
-                "capital-loss": "capital_loss"}, inplace=True)
     return data
 
-def missing_imputer(data, var, replace='missing'):
+def renamer(data, columns_to_rename):
+    '''
+    Rename columns
+    :params: data, columns_to_rename
+    :return: DataFrame
+    '''
+    data.rename(columns=columns_to_rename, inplace=True)
+    return data
+
+def anomalizier(data, anomaly_var):
+    '''
+    Drop anomalies 
+    :params: data, anomaly_var
+    :return: DataFrame
+    '''
+    flt = data[anomaly_var]>=0
+    return data[flt]
+
+def missing_imputer(data, columns_to_impute, replace='missing'):
     '''
     Imputes '?' character with 'missing' label
     :params: data, var, replace
     :return: Series
     '''
-    return data[var].replace('?', replace)
+    data[columns_to_impute] = data[columns_to_impute].replace('?', replace)
+    return data
+
+def data_splitter(data, target, predictors, test_size, random_state):
+    '''
+    Split data in train and test samples
+    :params: data, target, predictors, test_size, random_state
+    :return: X_train, X_test, y_train, y_test
+    '''
+    
+    X_train, X_test, y_train, y_test = train_test_split(data[predictors],
+                                                        data[target],
+                                                        test_size=test_size,
+                                                        random_state=random_state)
+    return X_train, X_test, y_train, y_test
+
+def target_encoder(target, labels_dic):
+    '''
+    Encode target
+    :params: target, labels_dic
+    :return: target_encoded
+    '''
+    target_encoded = target.map(labels_dic).astype('category')
+    return target_encoded
 
 def binner(data, var, new_var_name, bins, bins_labels):
-    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels, include_lowest= True)
+    data[new_var_name] = pd.cut(data[var], bins = bins, labels=bins_labels, include_lowest = True)
     data.drop(var, axis=1, inplace=True)
     return data[new_var_name]
 
@@ -67,73 +106,71 @@ def encoder(data, var, mapping):
         pass
     return data[var].map(mapping)
 
-def dumminizer(data, columns_to_dummies, dummies_meta):
-    '''
-    Generate dummies for nominal variables
-    :params: data, columns_to_dummies, dummies_meta
-    :return: DataFrame
-    '''
-    for var in columns_to_dummies:
-        cat_names = sorted(dummies_meta[var])
-        obs_cat_names = sorted(list(set(data[var].unique())))
-        dummies = pd.get_dummies(data[var], prefix=var)
-        data = pd.concat([data, dummies], axis=1)
-        if obs_cat_names != cat_names: #exception: when label misses 
-            cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names] #syntetic dummy
-            for cat in cat_miss_labels:
-                data[cat] = 0 
-        data = data.drop(var, 1)
+# def dumminizer(data, columns_to_dummies, dummies_meta):
+#     '''
+#     Generate dummies for nominal variables
+#     :params: data, columns_to_dummies, dummies_meta
+#     :return: DataFrame
+#     '''
+#     for var in columns_to_dummies:
+#         cat_names = sorted(dummies_meta[var])
+#         obs_cat_names = sorted(list(set(data[var].unique())))
+#         dummies = pd.get_dummies(data[var], prefix=var)
+#         data = pd.concat([data, dummies], axis=1)
+#         if obs_cat_names != cat_names: #exception: when label misses 
+#             cat_miss_labels = ["_".join([var, cat]) for cat in cat_names if cat not in obs_cat_names] #syntetic dummy
+#             for cat in cat_miss_labels:
+#                 data[cat] = 0 
+#         data = data.drop(var, 1)
+#     return data
+
+def dumminizer(data, columns_to_dummies):
+    data = pd.get_dummies(data, columns=columns_to_dummies)
     return data
-    
-def scaler_trainer(data, output_path):
+
+def scaler_trainer(data, scaler_path):
     '''
     Fit the scaler on predictors
-    :params: data, output_path
+    :params: data, scaler_path
     :return: scaler
     '''
     
     scaler = MinMaxScaler()
     scaler.fit(data)
-    joblib.dump(scaler, output_path)
+    joblib.dump(scaler, scaler_path)
     return scaler
   
-def scaler_trasformer(data, scaler):
+def scaler_transformer(data, scaler_path):
     '''
     Trasform the data 
     :params: data, scaler
     :return: DataFrame
-    '''
-    scaler = joblib.load(scaler) 
+    ''' 
+    scaler = joblib.load(scaler_path)
     return scaler.transform(data)
 
-def balancer(data, features_selected, target):
+def feature_selector(data, features_selected):
+    '''
+    Select features
+    :params: data, features_selected
+    :return: DataFrame
+    '''
+    data = data[features_selected]
+    return data
+
+def balancer(data, target, random_state):
     '''
     Balance data with SMOTE
     :params: data
     : X, y
     '''
-    smote = SMOTE(random_state=9)
-    X, y = smote.fit_resample(data[features_selected], data[target])
+    smote = SMOTE(random_state=random_state)
+    X, y = smote.fit_resample(data, target)
     return X,y
-
-def data_splitter(X, y):
-    '''
-    Split data in train and test samples
-    :params: X, y
-    :return: X_train, X_test, y_train, y_test
-    '''
-    
-    X_train, X_test, y_train, y_test = train_test_split(X,
-                                                        y,
-                                                        test_size=0.1,
-                                                        random_state=0)
-    return X_train, X_test, y_train, y_test
-
-
 
 # Training function
 
-def model_trainer(X_train, y_train, output_path):
+def model_trainer(X_train, y_train, max_depth, min_samples_split, n_estimators, random_state, output_path):
     '''
     Train the model and store it
     :params: X_train, y_train, output_path
@@ -157,7 +194,7 @@ def model_trainer(X_train, y_train, output_path):
     return None
 
 #Scoring function
-def model_scorer(X, model, index):
+def model_scorer(X_test, model, index):
     '''
     Score new data with onnx
     :params: X, model, index
@@ -168,13 +205,8 @@ def model_scorer(X, model, index):
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
 
-    row_to_score = pd.DataFrame([X.iloc[index]])
+    row_to_score = pd.DataFrame([X_test.iloc[index]])
 
     score = np.array(row_to_score, dtype=np.float32)
     predictions_onnx = sess.run([label_name], {input_name: score})
     return predictions_onnx[0]
-
-
-
-
-    

@@ -16,60 +16,91 @@ warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 # Training model#
 #################
 
-def train():
+def train(data, config):
 
-    # Read configuration
-    stream = open('config.yaml', 'r')
-    config = yaml.load(stream)
-
-    #Load and prepare data
-    logging.info('Loading data...')
-    data = data_loader(config['paths']['data_path'])
-    logging.info('Preparing data...')
-    data = data_preparer(data, config['dropped_columns'])
-
-    #Impute missing
-    logging.info('Imputing Missings...')
-    for var in config['missing_predictors']:
-        data[var] = missing_imputer(data, var, replace='missing')
+    data = data.copy()
     
-    #Binning variables
-    logging.info('Binning Variables...')
-    for var, meta in config['binning_meta'].items():
+    # Preprocessing
+    logging.info('Processing data...')
+
+    ## Drop columns
+    data = dropper(data, config['preprocessing']['dropped_columns'])
+    ## Rename columns 
+    data = renamer(data, config['preprocessing']['renamed_columns'])
+    ## Remove anomalies
+    data = anomalizier(data, 'umbrella_limit')
+    ## Impute missing
+    data = missing_imputer(data, 
+                           config['preprocessing']['missing_predictors'], 
+                           replace='missing')
+    ## Split data
+    X_train, X_test, y_train, y_test = data_splitter(data,
+                        config['data_ingestion']['data_map']['target'],
+                        config['data_ingestion']['data_map']['predictors'],
+                        config['preprocessing']['train_test_split_params']['test_size'],
+                        config['preprocessing']['train_test_split_params']['random_state'])
+    
+    # Features Engineering
+    logging.info('Engineering features...')
+
+    ## Encode target
+    y_train = target_encoder(y_train, 
+                             config['features_engineering']['target_encoding'])
+
+    ## Create bins
+    for var, meta in config['features_engineering']['binning_meta'].items():
         binning_meta = meta
-        data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
-    
-    #Encoding variables
-    logging.info('Encoding Variables...')
-    for var, meta in config['encoding_meta'].items():
-        data[var] = encoder(data, var, meta)
-    
-    #Create Dummies
-    logging.info('Generating Dummies...')
-    data = dumminizer(data, config['nominal_predictors'], config['dummies_meta'])
+        X_train[binning_meta['var_name']] = binner(X_train, var, 
+                                                   binning_meta['var_name'], 
+                                                   binning_meta['bins'], 
+                                                   binning_meta['bins_labels'])
 
-    #Scaling data
-    logging.info('Scaling Features...')
-    scaler = scaler_trainer(data[config['features']], config['paths']['scaler_path'])
-    data[config['features']] = scaler_trasformer(data[config['features']], config['paths']['scaler_path'])
+    ## Encode variables
+    for var, meta in config['features_engineering']['encoding_meta'].items():
+        X_train[var] = encoder(X_train, var, meta)
 
+    ## Create Dummies
+    X_train = dumminizer(X_train, 
+                         config['features_engineering']['nominal_predictors'])
+    ## Scale variables
+    scaler = scaler_trainer(X_train[config['features_engineering']['features']], 
+                           config['features_engineering']['scaler_path'])
+
+    X_train[config['features_engineering']['features']] = scaler.transform(
+                           X_train[config['features_engineering']['features']], 
+                           )
+    
+    #Select features
+    X_train = feature_selector(X_train, 
+                               config['features_engineering']['features_selected'])
+    
     #Balancing sample
-    logging.info('Oversampling with SMOTE...')
-    X, y = balancer(data, config['features_selected'], config['target'])
+    X_train, y_train = balancer(X_train, y_train, 
+                                config['features_engineering']['random_sample_smote'])
 
-    #Split and scale data
-    logging.info('Splitting Data for Training...')
-    X_train, X_test, y_train, y_test = data_splitter(X, y)
-    
     #Train the model
     logging.info('Training Model...')
-    model_trainer(X_train, y_train, config['paths']['model_path'])
+    model_trainer(X_train,
+                  y_train,
+                  config['model_training']['RandomForestClassifier']['max_depth'],
+                  config['model_training']['RandomForestClassifier']['min_samples_split'],
+                  config['model_training']['RandomForestClassifier']['n_estimators'],
+                  config['model_training']['RandomForestClassifier']['random_state'],
+                  config['model_training']['model_path'])
 
 if __name__ == '__main__':
 
     import logging
     from collections import Counter
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+
+    # Read configuration
+    stream = open('config.yaml', 'r')
+    config = yaml.load(stream)
+
+    logging.info('Loading data...')
+    data = loader(config['data_ingestion']['data_path'])
+
     logging.info('Training process started!')
-    train()
+    train(data, config)
     logging.info('Training finished!')
