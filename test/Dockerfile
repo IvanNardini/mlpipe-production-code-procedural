@@ -13,18 +13,16 @@ RUN apt-get update && \
 	graphviz && \
 	pip3 install --upgrade pip
 
-WORKDIR /usr/src
-
 COPY requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
+
+WORKDIR /usr/src
 
 COPY . . 
 
 RUN chmod +x ./run.sh
 
-# COPY . .
-
-# CMD [ "python3", "./train.py" ]
+# "/bin/bash", "./run.sh", "train", "score"
 
 CMD ["/bin/bash", "./run.sh", "train", "score"]

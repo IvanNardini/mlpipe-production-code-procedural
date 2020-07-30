@@ -10,41 +10,51 @@ from preprocess import *
 # Scoring data model#
 #####################
 
-def score(data_to_score):
+def score(data, config):
 
-    data = data_to_score.copy()
+    data = data.copy()
     
-    #Prepare data
-    logging.info('Preparing data...')
-    data = data_preparer(data, config['dropped_columns'])
+    # Preprocessing
+    logging.info('Processing data...')
 
-    #Impute missing
-    logging.info('Imputing Missings...')
-    for var in config['missing_predictors']:
-        data[var] = missing_imputer(data, var, replace='missing')
+    ## Drop columns
+    data = dropper(data, config['preprocessing']['dropped_columns'])
+    ## Rename columns 
+    data = renamer(data, config['preprocessing']['renamed_columns'])
+    ## Remove anomalies
+    data = anomalizier(data, 'umbrella_limit')
+    ## Impute missing
+    data = missing_imputer(data, 
+                           config['preprocessing']['missing_predictors'], 
+                           replace='missing')
     
-    #Binning variables
-    logging.info('Binning Variables...')
-    for var, meta in config['binning_meta'].items():
+    # Features Engineering
+    logging.info('Engineering features...')
+
+    ## Create bins
+    for var, meta in config['features_engineering']['binning_meta'].items():
         binning_meta = meta
-        data[binning_meta['var_name']] = binner(data, var, binning_meta['var_name'], binning_meta['bins'], binning_meta['bins_labels'])
-    
-    #Encoding variables
-    logging.info('Encoding Variables...')
-    for var, meta in config['encoding_meta'].items():
+        data[binning_meta['var_name']] = binner(data, var, 
+                                                   binning_meta['var_name'], 
+                                                   binning_meta['bins'], 
+                                                   binning_meta['bins_labels'])
+    ## Encode variables
+    for var, meta in config['features_engineering']['encoding_meta'].items():
         data[var] = encoder(data, var, meta)
-    
-    #Create Dummies
-    logging.info('Generating Dummies...')
-    data = dumminizer(data, config['nominal_predictors'], config['dummies_meta'])
-
-    #Scaling data
-    logging.info('Scaling Features...')
-    data[config['features']] = scaler_trasformer(data[config['features']], config['paths']['scaler_path'])
+    ## Create Dummies
+    data = dumminizer(data, 
+                      config['features_engineering']['nominal_predictors'])
+    ## Scale variables
+    data[config['features_engineering']['features']] = scaler_transformer(
+                           data[config['features_engineering']['features']], 
+                           config['features_engineering']['scaler_path'])
+    #Select features
+    data = feature_selector(data, 
+                               config['features_engineering']['features_selected'])
 
     #Score data
     logging.info('Scoring...')
-    prediction = model_scorer(data[config['features_selected']], config['paths']['model_path'], 1) #score only first row (assumption)
+    prediction = model_scorer(data, config['model_training']['model_path'], 1) #score only first row (assumption)
 
     return prediction
 
@@ -60,17 +70,20 @@ if __name__ == '__main__':
     import warnings
     warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 
-    # Read configuration
+     # Read configuration
     stream = open('config.yaml', 'r')
     config = yaml.load(stream)
 
-    data = data_loader(config['paths']['data_path'])
+    data = loader(config['data_ingestion']['data_path'])
 
-    X_train, X_test, y_train, y_test = train_test_split(data,
-                                                        data[config['target']])
+    X_train, X_test, y_train, y_test = data_splitter(data,
+                        config['data_ingestion']['data_map']['target'],
+                        config['data_ingestion']['data_map']['variables'],
+                        config['preprocessing']['train_test_split_params']['test_size'],
+                        config['preprocessing']['train_test_split_params']['random_state'])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    prediction = score(X_test)
+    prediction = score(X_test, config)
     logging.info('Scoring finished!')
     logging.info('The prediction label is {}'.format(prediction))
