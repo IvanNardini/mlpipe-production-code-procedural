@@ -24,31 +24,31 @@ def train(data, config):
     logging.info('Processing data...')
 
     ## Drop columns
-    data = dropper(data, config['preprocessing']['dropped_columns'])
+    data = dropper(data, PREPROCESSING['dropped_columns'])
     ## Rename columns 
-    data = renamer(data, config['preprocessing']['renamed_columns'])
+    data = renamer(data, PREPROCESSING['renamed_columns'])
     ## Remove anomalies
     data = anomalizier(data, 'umbrella_limit')
     ## Impute missing
     data = missing_imputer(data, 
-                           config['preprocessing']['missing_predictors'], 
+                           PREPROCESSING['missing_predictors'], 
                            replace='missing')
     ## Split data
     X_train, X_test, y_train, y_test = data_splitter(data,
-                        config['data_ingestion']['data_map']['target'],
-                        config['data_ingestion']['data_map']['predictors'],
-                        config['preprocessing']['train_test_split_params']['test_size'],
-                        config['preprocessing']['train_test_split_params']['random_state'])
+                        DATA_INGESTION['data_map']['target'],
+                        PREPROCESSING['predictors'],
+                        PREPROCESSING['train_test_split_params']['test_size'],
+                        PREPROCESSING['train_test_split_params']['random_state'])
     
     # Features Engineering
     logging.info('Engineering features...')
 
     ## Encode target
     y_train = target_encoder(y_train, 
-                             config['features_engineering']['target_encoding'])
+                             FEATURES_ENGINEERING['target_encoding'])
 
     ## Create bins
-    for var, meta in config['features_engineering']['binning_meta'].items():
+    for var, meta in FEATURES_ENGINEERING['binning_meta'].items():
         binning_meta = meta
         X_train[binning_meta['var_name']] = binner(X_train, var, 
                                                    binning_meta['var_name'], 
@@ -56,37 +56,37 @@ def train(data, config):
                                                    binning_meta['bins_labels'])
 
     ## Encode variables
-    for var, meta in config['features_engineering']['encoding_meta'].items():
+    for var, meta in FEATURES_ENGINEERING['encoding_meta'].items():
         X_train[var] = encoder(X_train, var, meta)
 
     ## Create Dummies
     X_train = dumminizer(X_train, 
-                         config['features_engineering']['nominal_predictors'])
+                         FEATURES_ENGINEERING['nominal_predictors'])
     ## Scale variables
-    scaler = scaler_trainer(X_train[config['features_engineering']['features']], 
-                           config['features_engineering']['scaler_path'])
+    scaler = scaler_trainer(X_train[FEATURES_ENGINEERING['features']], 
+                           FEATURES_ENGINEERING['scaler_path'])
 
-    X_train[config['features_engineering']['features']] = scaler.transform(
-                           X_train[config['features_engineering']['features']], 
+    X_train[FEATURES_ENGINEERING['features']] = scaler.transform(
+                           X_train[FEATURES_ENGINEERING['features']], 
                            )
     
     #Select features
     X_train = feature_selector(X_train, 
-                               config['features_engineering']['features_selected'])
+                               FEATURES_ENGINEERING['features_selected'])
     
     #Balancing sample
     X_train, y_train = balancer(X_train, y_train, 
-                                config['features_engineering']['random_sample_smote'])
+                                FEATURES_ENGINEERING['random_sample_smote'])
 
     #Train the model
     logging.info('Training Model...')
     model_trainer(X_train,
                   y_train,
-                  config['model_training']['RandomForestClassifier']['max_depth'],
-                  config['model_training']['RandomForestClassifier']['min_samples_split'],
-                  config['model_training']['RandomForestClassifier']['n_estimators'],
-                  config['model_training']['RandomForestClassifier']['random_state'],
-                  config['model_training']['model_path'])
+                  MODEL_TRAINING['RandomForestClassifier']['max_depth'],
+                  MODEL_TRAINING['RandomForestClassifier']['min_samples_split'],
+                  MODEL_TRAINING['RandomForestClassifier']['n_estimators'],
+                  MODEL_TRAINING['RandomForestClassifier']['random_state'],
+                  MODEL_TRAINING['model_path'])
 
 if __name__ == '__main__':
 
@@ -98,9 +98,14 @@ if __name__ == '__main__':
     stream = open('config.yaml', 'r')
     config = yaml.load(stream)
 
-    logging.info('Loading data...')
-    data = loader(config['data_ingestion']['data_path'])
+    DATA_INGESTION = config['data_ingestion']
+    PREPROCESSING = config['preprocessing']
+    FEATURES_ENGINEERING = config['features_engineering']
+    MODEL_TRAINING = config['model_training']
 
+    logging.info('Loading data...')
+    data = loader(DATA_INGESTION['data_path'])
+    
     logging.info('Training process started!')
     train(data, config)
     logging.info('Training finished!')
