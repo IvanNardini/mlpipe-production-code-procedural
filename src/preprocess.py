@@ -173,14 +173,14 @@ def balancer(data, target, random_state):
 def model_trainer(X_train, y_train, max_depth, min_samples_split, n_estimators, random_state, output_path):
     '''
     Train the model and store it
-    :params: X_train, y_train, output_path
+    :params: X_train, y_train, max_depth, min_samples_split, n_estimators, random_state, output_path
     :return: None
     '''
     # initialise the model
-    rfor = RandomForestClassifier(max_depth=25, 
-                                  min_samples_split=5, 
-                                  n_estimators=300,
-                                  random_state=8)
+    rfor = RandomForestClassifier(max_depth=max_depth, 
+                                  min_samples_split=min_samples_split, 
+                                  n_estimators=n_estimators,
+                                  random_state=random_state)
        
     # train the model
     rfor.fit(X_train, y_train)
