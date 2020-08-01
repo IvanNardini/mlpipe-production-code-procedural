@@ -13,7 +13,8 @@ from preprocess import *
 def score(data):
 
     data = data.copy()
-
+    # Preprocessing
+    logging.info('Processing data...')
     ## Drop columns
     data = dropper(data, PREPROCESSING['dropped_columns'])
     ## Rename columns 
@@ -51,9 +52,9 @@ def score(data):
 
     #Score data
     logging.info('Scoring...')
-    predictions = model_scorer(data, MODEL_TRAINING['model_path']) 
+    prediction = model_scorer(data, MODEL_TRAINING['model_path'], 1) #score only first row (assumption)
 
-    return data, predictions
+    return prediction
 
 if __name__ == '__main__':
 
@@ -80,28 +81,12 @@ if __name__ == '__main__':
 
     X_train, X_test, y_train, y_test = data_splitter(data,
                         DATA_INGESTION['data_map']['target'],
-                        PREPROCESSING['predictors'],
+                        DATA_INGESTION['data_map']['variables'],
                         PREPROCESSING['train_test_split_params']['test_size'],
                         PREPROCESSING['train_test_split_params']['random_state'])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    X_test, predictions = score(X_test, config)
+    prediction = score(X_test, config)
     logging.info('Scoring finished!')
-
-    y_test = target_encoder(y_test, 
-                            FEATURES_ENGINEERING['target_encoding'])
-
-    MODEL = MODEL_TRAINING['model_path']
-    print()
-    print("*"*20)
-    print("Model Predictions".center(20, '*'))
-    print("*"*20)
-    print()
-    print('First 10 prediticions are: {}'.format(predictions[:10]))
-    print()   
-    print("*"*20)
-    print("Model Assessment".center(20, '*'))
-    print("*"*20)
-    model_evaluator(MODEL, X_test, y_test)
-    
+    logging.info('The prediction label is {}'.format(prediction))

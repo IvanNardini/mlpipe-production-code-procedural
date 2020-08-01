@@ -46,9 +46,6 @@ def train(data):
     ## Encode target
     y_train = target_encoder(y_train, 
                              FEATURES_ENGINEERING['target_encoding'])
-    y_test = target_encoder(y_test, 
-                             FEATURES_ENGINEERING['target_encoding'])
-    
 
     ## Create bins
     for var, meta in FEATURES_ENGINEERING['binning_meta'].items():
@@ -57,20 +54,13 @@ def train(data):
                                                    binning_meta['var_name'], 
                                                    binning_meta['bins'], 
                                                    binning_meta['bins_labels'])
-        X_test[binning_meta['var_name']] = binner(X_test, var, 
-                                                   binning_meta['var_name'], 
-                                                   binning_meta['bins'], 
-                                                   binning_meta['bins_labels'])
 
     ## Encode variables
     for var, meta in FEATURES_ENGINEERING['encoding_meta'].items():
         X_train[var] = encoder(X_train, var, meta)
-        X_test[var] = encoder(X_test, var, meta)
 
     ## Create Dummies
     X_train = dumminizer(X_train, 
-                         FEATURES_ENGINEERING['nominal_predictors'])
-    X_test = dumminizer(X_test, 
                          FEATURES_ENGINEERING['nominal_predictors'])
     ## Scale variables
     scaler = scaler_trainer(X_train[FEATURES_ENGINEERING['features']], 
@@ -79,14 +69,9 @@ def train(data):
     X_train[FEATURES_ENGINEERING['features']] = scaler.transform(
                            X_train[FEATURES_ENGINEERING['features']], 
                            )
-    X_test[FEATURES_ENGINEERING['features']] = scaler.transform(
-                           X_test[FEATURES_ENGINEERING['features']], 
-                           )
     
     #Select features
     X_train = feature_selector(X_train, 
-                               FEATURES_ENGINEERING['features_selected'])
-    X_test = feature_selector(X_train, 
                                FEATURES_ENGINEERING['features_selected'])
     
     #Balancing sample

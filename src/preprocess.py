@@ -12,7 +12,6 @@ from sklearn.preprocessing import MinMaxScaler
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
 
 # Model Deployment
 from skl2onnx import convert_sklearn
@@ -170,6 +169,7 @@ def balancer(data, target, random_state):
     return X,y
 
 # Training function
+
 def model_trainer(X_train, y_train, max_depth, min_samples_split, n_estimators, random_state, output_path):
     '''
     Train the model and store it
@@ -186,37 +186,27 @@ def model_trainer(X_train, y_train, max_depth, min_samples_split, n_estimators, 
     rfor.fit(X_train, y_train)
     
     # save the model
-    joblib.dump(rfor, output_path)
+    initial_type = [('features_input', FloatTensorType([1, X_train.shape[1]]))]
+    onnx = convert_sklearn(rfor, name='rf_champion', initial_types=initial_type)
+    with open(output_path, "wb") as f:
+        f.write(onnx.SerializeToString())
+        f.close()
     return None
 
 #Scoring function
-def model_scorer(X_test, model):
+def model_scorer(X_test, model, index):
     '''
     Score new data with onnx
-    :params: X, model
+    :params: X, model, index
     :return: list
     '''
-    #Initiate the model
-    rfor = joblib.load(model)
+    sess = rt.InferenceSession(model)
 
-    #Predictions
-    predictions = rfor.predict(X_test)
-    return predictions
+    input_name = sess.get_inputs()[0].name
+    label_name = sess.get_outputs()[0].name
 
-#Evaluate function
-def model_evaluator(model, X, y):
-    '''
-    Evaluate classification
-    params: model, X_train, y_train, X_test, y_test
-    returns: None
-    '''
-    model = joblib.load(model)
-    predictions = model.predict(X)
-    score = round(model.score(X, y), 3)
-    classification = classification_report(y, predictions)
-    print()
-    print('score: {}'.format(score))
-    print()
-    print('Classification report')
-    print(classification)
-    return None
+    row_to_score = pd.DataFrame([X_test.iloc[index]])
+
+    score = np.array(row_to_score, dtype=np.float32)
+    predictions_onnx = sess.run([label_name], {input_name: score})
+    return predictions_onnx[0]
