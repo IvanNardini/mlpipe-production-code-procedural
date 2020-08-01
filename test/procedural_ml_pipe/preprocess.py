@@ -185,7 +185,7 @@ def model_trainer(X_train, y_train, max_depth, min_samples_split, n_estimators, 
     rfor.fit(X_train, y_train)
     
     # save the model
-    joblib.dump(output_path)
+    joblib.dump(rfor, output_path)
     return None
 
 #Scoring function
