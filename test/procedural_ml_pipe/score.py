@@ -95,11 +95,15 @@ if __name__ == '__main__':
                             FEATURES_ENGINEERING['target_encoding'])
 
     MODEL = MODEL_TRAINING['model_path']
-    print()    
+    print()
+    print("*"*20)
+    print("Model Predictions".center(20, '*'))
+    print("*"*20)
+    print()
+    print('First 10 prediticions are: {}'.format(predictions[:10]))
+    print()   
     print("*"*20)
     print("Model Assessment".center(20, '*'))
     print("*"*20)
     model_evaluator(MODEL, X_test, y_test)
-    print("*"*20)
-    print("Model Predictions".center(20, '*'))
-    print("*"*20)
+    
