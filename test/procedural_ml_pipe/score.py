@@ -49,7 +49,7 @@ def score(data, config):
     logging.info('Scoring...')
     predictions = model_scorer(data, MODEL_TRAINING['model_path']) 
 
-    return predictions
+    return data, predictions
 
 if __name__ == '__main__':
 
@@ -82,14 +82,17 @@ if __name__ == '__main__':
 
     X_train, X_test, y_train, y_test = data_splitter(data,
                         DATA_INGESTION['data_map']['target'],
-                        DATA_INGESTION['data_map']['variables'],
+                        PREPROCESSING['predictors'],
                         PREPROCESSING['train_test_split_params']['test_size'],
                         PREPROCESSING['train_test_split_params']['random_state'])
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    predictions = score(X_test, config)
+    X_test, predictions = score(X_test, config)
     logging.info('Scoring finished!')
+
+    y_test = target_encoder(y_test, 
+                            FEATURES_ENGINEERING['target_encoding'])
 
     MODEL = MODEL_TRAINING['model_path']
     print()    
