@@ -405,7 +405,7 @@ features_engineering:
     -   witnesses
     random_sample_smote: 9
 model_training:
-    model_path: './rf_champion.onnx'
+    model_path: './rf_champion.joblib'
     RandomForestClassifier:
         max_depth: 25
         min_samples_split: 5
