@@ -122,5 +122,5 @@ if __name__ == '__main__':
     data = loader(DATA_INGESTION['data_path'])
     
     logging.info('Training process started!')
-    train(data, config)
+    train(data)
     logging.info('Training finished!')

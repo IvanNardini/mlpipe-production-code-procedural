@@ -13,17 +13,6 @@ from preprocess import *
 def score(data):
 
     data = data.copy()
-
-    ## Drop columns
-    data = dropper(data, PREPROCESSING['dropped_columns'])
-    ## Rename columns 
-    data = renamer(data, PREPROCESSING['renamed_columns'])
-    ## Remove anomalies
-    data = anomalizier(data, 'umbrella_limit')
-    ## Impute missing
-    data = missing_imputer(data, 
-                           PREPROCESSING['missing_predictors'], 
-                           replace='missing')
     
     # Features Engineering
     logging.info('Engineering features...')
@@ -78,6 +67,17 @@ if __name__ == '__main__':
 
     data = loader(DATA_INGESTION['data_path'])
 
+    ## Drop columns
+    data = dropper(data, PREPROCESSING['dropped_columns'])
+    ## Rename columns 
+    data = renamer(data, PREPROCESSING['renamed_columns'])
+    ## Remove anomalies
+    data = anomalizier(data, 'umbrella_limit')
+    ## Impute missing
+    data = missing_imputer(data, 
+                           PREPROCESSING['missing_predictors'], 
+                           replace='missing')
+
     X_train, X_test, y_train, y_test = data_splitter(data,
                         DATA_INGESTION['data_map']['target'],
                         PREPROCESSING['predictors'],
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
     logging.info('Scoring process started!')
-    X_test, predictions = score(X_test, config)
+    X_test, predictions = score(X_test)
     logging.info('Scoring finished!')
 
     y_test = target_encoder(y_test, 
