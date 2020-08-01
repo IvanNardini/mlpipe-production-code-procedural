@@ -16,9 +16,22 @@ warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 # Training model#
 #################
 
-def train(data, config):
+def train(data):
 
     data = data.copy()
+
+    # Preprocessing
+    logging.info('Processing data...')
+    ## Drop columns
+    data = dropper(data, PREPROCESSING['dropped_columns'])
+    ## Rename columns 
+    data = renamer(data, PREPROCESSING['renamed_columns'])
+    ## Remove anomalies
+    data = anomalizier(data, 'umbrella_limit')
+    ## Impute missing
+    data = missing_imputer(data, 
+                           PREPROCESSING['missing_predictors'], 
+                           replace='missing')
 
     ## Split data
     X_train, X_test, y_train, y_test = data_splitter(data,
@@ -107,19 +120,6 @@ if __name__ == '__main__':
 
     logging.info('Loading data...')
     data = loader(DATA_INGESTION['data_path'])
-
-    # Preprocessing
-    logging.info('Processing data...')
-    ## Drop columns
-    data = dropper(data, PREPROCESSING['dropped_columns'])
-    ## Rename columns 
-    data = renamer(data, PREPROCESSING['renamed_columns'])
-    ## Remove anomalies
-    data = anomalizier(data, 'umbrella_limit')
-    ## Impute missing
-    data = missing_imputer(data, 
-                           PREPROCESSING['missing_predictors'], 
-                           replace='missing')
     
     logging.info('Training process started!')
     train(data, config)
