@@ -15,7 +15,7 @@ In particular, I try to replicate at OmkarReddy and Bunty Shah user’s notebook
 Below the **high-level architecture of the project**: 
 
 <p align="center">
-<img src="https://github.com/IvanNardini/mlpipe-production-code-procedural/raw/master/ml_lab_2.png">
+<img src="https://github.com/IvanNardini/mlpipe-production-code-procedural/raw/master/ml_lab_2.jpg">
 </p>
 
 ### Contributing
