@@ -16,13 +16,6 @@ def score(data, config):
     
     # Preprocessing
     logging.info('Processing data...')
-
-    ## Drop columns
-    data = dropper(data, PREPROCESSING['dropped_columns'])
-    ## Rename columns 
-    data = renamer(data, PREPROCESSING['renamed_columns'])
-    ## Remove anomalies
-    data = anomalizier(data, 'umbrella_limit')
     ## Impute missing
     data = missing_imputer(data, 
                            PREPROCESSING['missing_predictors'], 
@@ -80,6 +73,12 @@ if __name__ == '__main__':
     MODEL_TRAINING = config['model_training']
 
     data = loader(DATA_INGESTION['data_path'])
+    ## Drop columns
+    data = dropper(data, PREPROCESSING['dropped_columns'])
+    ## Rename columns 
+    data = renamer(data, PREPROCESSING['renamed_columns'])
+    ## Remove anomalies
+    data = anomalizier(data, 'umbrella_limit')
 
     X_train, X_test, y_train, y_test = data_splitter(data,
                         DATA_INGESTION['data_map']['target'],
